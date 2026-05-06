@@ -724,44 +724,13 @@
         "abstract": null,
         "openAccessUrl": "https://doi.org/10.4314/ijmu.v4i2.43843",
         "citationCount": 1
-      },
-      {
-        "pmid": "6328efaa4181c358c4ed0ecfcc14b3b6d5d3a968",
-        "paper_id": "6328efaa4181c358c4ed0ecfcc14b3b6d5d3a968",
-        "title": "The mechanism of sexual attractant perception and its effect on reproduction of pink and spiny bollworms",
-        "authors": [
-          "S. N. Kostandy",
-          "A. Rashad",
-          "A. Makkar"
-        ],
-        "journal": "Egyptian Journal of Agricultural Research",
-        "year": "2000",
-        "doi": "",
-        "tags": [],
-        "pub_types": [],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "d2eeaf00195735d3ea5e34560ab791352c2b6905",
-        "paper_id": "d2eeaf00195735d3ea5e34560ab791352c2b6905",
-        "title": "Relationship between spiny bollworm males attracted to pheromone traps and larval infestation in cotton bolls",
-        "authors": [
-          "A. Makkar",
-          "S. N. Kostandy"
-        ],
-        "journal": "Annals of agricultural science, Moshtohor",
-        "year": "1995",
-        "doi": "",
-        "tags": [],
-        "pub_types": [],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 1
       }
     ],
-    "total": 32
+    "total": 30,
+    "_blocked": [
+      "6328efaa4181c358c4ed0ecfcc14b3b6d5d3a968",
+      "d2eeaf00195735d3ea5e34560ab791352c2b6905"
+    ]
   },
   "prasath-arun": {
     "faculty_id": "prasath-arun",
