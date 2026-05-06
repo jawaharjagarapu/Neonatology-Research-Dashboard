@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UT Southwestern Neonatology — Research Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0f14;
+  --bg2: #13161d;
+  --bg3: #1a1e27;
+  --bg4: #222736;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #e8eaf0;
+  --text2: #9499aa;
+  --text3: #5a5f70;
+  --gold: #e8b84b;
+  --gold2: #c99530;
+  --teal: #4ecdc4;
+  --teal2: #2a9d94;
+  --coral: #e07060;
+  --violet: #9b72cf;
+  --green: #6bcb77;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Figtree', sans-serif;
+}
+
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); min-height: 100vh; overflow-x: hidden; }
+
+/* ─── HEADER ─── */
+.site-header {
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(232,184,75,0.04) 0%, transparent 100%);
+  display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.header-left h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.header-left h1 span { color: var(--gold); font-style: italic; }
+.header-sub {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.header-meta {
+  display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;
+}
+.meta-pill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text2);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.meta-pill strong { color: var(--gold); }
+.last-updated { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text3); }
+
+/* ─── DIVISION STATS ─── */
+.division-stats {
+  display: flex; gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.ds-cell {
+  flex: 1; min-width: 120px;
+  padding: 1.25rem 1.5rem;
+  border-right: 1px solid var(--border);
+  cursor: default;
+}
+.ds-cell:last-child { border-right: none; }
+.ds-num {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.ds-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* ─── MAIN LAYOUT ─── */
+.main { display: flex; min-height: calc(100vh - 200px); }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 300px; min-width: 300px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  background: var(--bg2);
+}
+.sidebar-search {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 10;
+  background: var(--bg2);
+}
+.search-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 8px 12px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  border-radius: 6px;
+  outline: none;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-input:focus { border-color: var(--gold); }
+
+.faculty-list { padding: 0.5rem 0; }
+.faculty-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 1rem;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.faculty-item:hover { background: var(--bg3); }
+.faculty-item.active {
+  background: rgba(232,184,75,0.07);
+  border-left-color: var(--gold);
+}
+.faculty-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gold);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.faculty-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.faculty-info { flex: 1; min-width: 0; }
+.faculty-name { font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.faculty-title { font-size: 0.68rem; color: var(--text3); margin-top: 1px; }
+.faculty-count {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text3);
+  background: var(--bg3);
+  padding: 2px 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* ─── CONTENT AREA ─── */
+.content-area { flex: 1; overflow-y: auto; padding: 0; }
+
+/* ─── DIVISION VIEW ─── */
+.division-view { padding: 1.5rem; }
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Faculty grid */
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.faculty-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-radius: 4px;
+  text-align: center;
+  position: relative;
+}
+.faculty-card:hover {
+  border-color: var(--gold);
+  background: var(--bg4);
+  transform: translateY(-2px);
+}
+.card-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 2px solid var(--border2);
+  margin: 0 auto 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+  overflow: hidden;
+}
+.card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.card-name { font-size: 0.78rem; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 2px; }
+.card-title { font-size: 0.65rem; color: var(--text3); margin-bottom: 6px; }
+.card-pubs {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* Theme distribution */
+.theme-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 2rem; }
+.theme-row { display: flex; align-items: center; gap: 8px; }
+.theme-name { font-size: 0.75rem; font-weight: 600; color: var(--text2); width: 10rem; min-width: 10rem; }
+.theme-track { flex: 1; height: 20px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+.theme-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.23, 1, 0.32, 1); }
+.theme-val { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); min-width: 2rem; text-align: right; }
+
+/* Timeline bar chart */
+.timeline-chart { margin-bottom: 2rem; }
+.tl-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.tl-yr { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text3); width: 2.5rem; min-width: 2.5rem; text-align: right; }
+.tl-track { flex: 1; height: 14px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+.tl-fill { height: 100%; background: var(--gold2); border-radius: 2px; transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+.tl-count { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text3); min-width: 2.5rem; text-align: right; }
+
+/* ─── SCHOLAR PROFILE ─── */
+.scholar-view { display: none; }
+.scholar-view.active { display: block; }
+.scholar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  background: linear-gradient(135deg, rgba(232,184,75,0.03) 0%, transparent 60%);
+}
+.scholar-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  overflow: hidden;
+}
+.scholar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.scholar-meta { flex: 1; }
+.scholar-name { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--text); line-height: 1.1; }
+.scholar-title-line { font-size: 0.82rem; color: var(--text3); margin: 4px 0 8px; }
+.scholar-focus { display: flex; gap: 6px; flex-wrap: wrap; }
+.focus-tag {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+}
+.scholar-stats-row {
+  display: flex; gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.ss-cell {
+  flex: 1;
+  padding: 0.9rem 1.25rem;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.ss-cell:last-child { border-right: none; }
+.ss-num { font-family: var(--font-serif); font-size: 1.5rem; color: var(--gold); font-weight: 700; }
+.ss-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+/* Scholar tabs */
+.scholar-tabs { display: flex; border-bottom: 1px solid var(--border); }
+.stab {
+  padding: 0.7rem 1.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--text3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font-family: var(--font-sans);
+  transition: color 0.15s;
+}
+.stab:hover { color: var(--text); }
+.stab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.spane { display: none; padding: 1.25rem 1.5rem; }
+.spane.active { display: block; }
+
+/* Publication list */
+.pub-item {
+  padding: 0.75rem;
+  border-left: 2px solid var(--border);
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--bg2);
+}
+.pub-item:hover { border-left-color: var(--gold); background: var(--bg3); }
+.pub-title { font-size: 0.82rem; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+.pub-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text3); display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.pub-tag {
+  font-size: 0.6rem; font-family: var(--font-mono);
+  padding: 1px 5px; border-radius: 2px;
+  background: rgba(232,184,75,0.1); color: var(--gold);
+}
+
+.pub-tags-row { margin-bottom: 4px; min-height: 4px; }
+.pub-doi { color: var(--teal2); }
+.pub-authors { margin-top: 2px; }
+.pub-empty { color: var(--text3); font-size: 0.8rem; padding: 1rem; }
+
+/* Trend bars */
+.trend-section { margin-bottom: 1.5rem; }
+.trend-bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+.trend-col { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.trend-bar { width: 28px; background: var(--gold2); border-radius: 2px 2px 0 0; min-height: 4px; transition: height 0.6s ease; }
+.trend-yr { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text3); }
+.trend-n { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text2); }
+
+/* Journal list */
+.journal-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.journal-item:last-child { border-bottom: none; }
+.journal-name { font-size: 0.78rem; font-weight: 600; flex: 1; color: var(--text); }
+.journal-track { width: 100px; height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+.journal-fill { height: 100%; background: var(--teal2); border-radius: 2px; }
+.journal-n { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); min-width: 2rem; text-align: right; }
+
+/* ─── ADMIN ─── */
+.admin-btn {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  cursor: pointer;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+.admin-btn:hover { color: var(--coral); border-color: var(--coral); }
+.admin-btn.active { color: var(--coral); border-color: var(--coral); background: rgba(224,112,96,0.08); }
+
+.admin-bar {
+  background: rgba(224,112,96,0.06);
+  border-bottom: 1px solid rgba(224,112,96,0.18);
+  padding: 0.35rem 2.5rem;
+  display: none; align-items: center; gap: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+}
+.admin-bar-badge { color: var(--coral); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.admin-bar-link { color: var(--text3); cursor: pointer; background: none; border: none; font-family: var(--font-mono); font-size: 0.64rem; padding: 0; }
+.admin-bar-link:hover { color: var(--text); }
+.admin-bar-sync { color: var(--teal) !important; }
+.admin-bar-sync:hover { color: #7eddd8 !important; }
+.admin-bar-sync:disabled { opacity: 0.6; cursor: default; }
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.72);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-box {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  padding: 2rem;
+  width: 380px;
+  max-width: 92vw;
+  border-radius: 4px;
+}
+.modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.modal-sub { font-size: 0.72rem; color: var(--text3); margin-bottom: 1.25rem; }
+.modal-label { font-size: 0.7rem; color: var(--text2); margin-bottom: 5px; font-weight: 600; letter-spacing: 0.04em; }
+.modal-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 9px 12px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  border-radius: 4px;
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+.modal-input:focus { border-color: var(--gold); }
+.modal-error { font-size: 0.7rem; color: var(--coral); margin-bottom: 0.75rem; min-height: 1.1em; }
+.modal-actions { display: flex; gap: 8px; margin-top: 0.25rem; }
+.btn-primary {
+  background: var(--gold); color: #0d0f14;
+  border: none; padding: 9px 0;
+  font-family: var(--font-sans); font-weight: 600; font-size: 0.78rem;
+  cursor: pointer; border-radius: 2px; flex: 1;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--gold2); }
+.btn-secondary {
+  background: transparent; color: var(--text3);
+  border: 1px solid var(--border); padding: 9px 18px;
+  font-family: var(--font-sans); font-size: 0.78rem;
+  cursor: pointer; border-radius: 2px;
+  transition: color 0.15s;
+}
+.btn-secondary:hover { color: var(--text); }
+
+/* Delete button on pub items */
+.pub-item { position: relative; }
+.delete-btn {
+  padding: 2px 9px;
+  background: rgba(224,112,96,0.12);
+  border: 1px solid rgba(224,112,96,0.3);
+  color: var(--coral);
+  cursor: pointer; border-radius: 3px;
+  font-size: 0.65rem; font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+.delete-btn:hover { background: rgba(224,112,96,0.28); border-color: rgba(224,112,96,0.6); }
+
+/* Admin pub item layout */
+.pub-item-admin-row {
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.pub-select-cb {
+  margin-top: 3px; flex-shrink: 0;
+  width: 15px; height: 15px;
+  accent-color: var(--coral);
+  cursor: pointer;
+}
+.pub-item-body { flex: 1; min-width: 0; }
+.pub-item.selected {
+  border-left-color: var(--coral);
+  background: rgba(224,112,96,0.07);
+}
+
+/* Multi-delete toolbar */
+.bulk-delete-bar {
+  display: none;
+  align-items: center; gap: 0.75rem;
+  padding: 6px 10px;
+  background: rgba(224,112,96,0.1);
+  border: 1px solid rgba(224,112,96,0.25);
+  border-radius: 5px;
+  margin-bottom: 0.75rem;
+  font-size: 0.72rem; font-family: var(--font-mono);
+  color: var(--text2);
+}
+.bulk-delete-bar.visible { display: flex; }
+.bulk-delete-bar .btn-bulk-del {
+  padding: 3px 12px;
+  background: var(--coral); color: #fff;
+  border: none; border-radius: 3px;
+  font-size: 0.68rem; font-family: var(--font-mono);
+  cursor: pointer; font-weight: 600;
+}
+.bulk-delete-bar .btn-bulk-del:hover { background: #c85a4a; }
+.bulk-delete-bar .btn-sel-all {
+  padding: 3px 10px;
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--border2); border-radius: 3px;
+  font-size: 0.68rem; font-family: var(--font-mono);
+  cursor: pointer;
+}
+.bulk-delete-bar .btn-sel-all:hover { color: var(--text); }
+
+/* Add-paper bar */
+.add-paper-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  background: rgba(78,205,196,0.06);
+  border: 1px solid rgba(78,205,196,0.2);
+  border-radius: 5px;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+.add-paper-bar label {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  color: var(--teal); white-space: nowrap; flex-shrink: 0;
+}
+.add-paper-input {
+  flex: 1; min-width: 140px; max-width: 220px;
+  background: var(--bg); border: 1px solid var(--border2);
+  color: var(--text); font-family: var(--font-mono); font-size: 0.72rem;
+  padding: 4px 8px; border-radius: 3px; outline: none;
+}
+.add-paper-input:focus { border-color: var(--teal); }
+.btn-add-paper {
+  padding: 4px 12px;
+  background: rgba(78,205,196,0.15); color: var(--teal);
+  border: 1px solid rgba(78,205,196,0.35); border-radius: 3px;
+  font-size: 0.68rem; font-family: var(--font-mono);
+  cursor: pointer; white-space: nowrap;
+  transition: background 0.15s;
+}
+.btn-add-paper:hover { background: rgba(78,205,196,0.28); }
+.btn-add-paper:disabled { opacity: 0.4; cursor: not-allowed; }
+.add-paper-status {
+  font-family: var(--font-mono); font-size: 0.64rem;
+  color: var(--text3); flex-basis: 100%;
+}
+.add-paper-status.err { color: var(--coral); }
+.add-paper-status.ok  { color: var(--green); }
+
+/* Add-paper preview card */
+.add-paper-preview {
+  display: none;
+  border: 1px solid rgba(78,205,196,0.25);
+  border-radius: 5px;
+  padding: 10px 12px;
+  margin-bottom: 0.75rem;
+  background: rgba(78,205,196,0.04);
+}
+.add-paper-preview.visible { display: block; }
+.add-paper-preview .preview-title {
+  font-size: 0.82rem; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 4px;
+}
+.add-paper-preview .preview-meta {
+  font-family: var(--font-mono); font-size: 0.63rem; color: var(--text3);
+  display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 6px;
+}
+.add-paper-preview .preview-authors {
+  font-size: 0.7rem; color: var(--text2); margin-bottom: 8px;
+}
+.add-paper-preview .preview-actions {
+  display: flex; gap: 8px;
+}
+.btn-confirm-add {
+  padding: 4px 14px;
+  background: var(--teal2); color: #fff;
+  border: none; border-radius: 3px;
+  font-size: 0.68rem; font-family: var(--font-mono); font-weight: 600;
+  cursor: pointer;
+}
+.btn-confirm-add:hover { background: var(--teal); }
+.btn-cancel-add {
+  padding: 4px 12px;
+  background: transparent; color: var(--text3);
+  border: 1px solid var(--border2); border-radius: 3px;
+  font-size: 0.68rem; font-family: var(--font-mono);
+  cursor: pointer;
+}
+.btn-cancel-add:hover { color: var(--text); }
+
+/* Badge on manually-added papers */
+.pub-tag-manual {
+  display: inline-block; font-size: 0.58rem; font-family: var(--font-mono);
+  padding: 1px 6px; border-radius: 10px;
+  background: rgba(78,205,196,0.15); color: var(--teal);
+  border: 1px solid rgba(78,205,196,0.3);
+  vertical-align: middle;
+}
+
+/* Open Access badge */
+.pub-tag-oa {
+  display: inline-block; font-size: 0.58rem; font-family: var(--font-mono);
+  padding: 1px 6px; border-radius: 2px;
+  background: rgba(107,203,119,0.15); color: var(--green);
+  border: 1px solid rgba(107,203,119,0.25);
+  text-decoration: none; vertical-align: middle;
+}
+.pub-tag-oa:hover { background: rgba(107,203,119,0.28); }
+
+/* Citation count inline */
+.pub-citations {
+  font-family: var(--font-mono); font-size: 0.6rem; color: var(--text3);
+}
+
+/* Abstract expand/collapse */
+.pub-abstract {
+  font-size: 0.78rem; color: var(--text2); line-height: 1.65;
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid var(--border); display: none;
+}
+.pub-abstract.open { display: block; }
+.pub-abstract-toggle {
+  background: none; border: none; cursor: pointer; padding: 4px 0 0;
+  font-family: var(--font-mono); font-size: 0.6rem; color: var(--text3);
+}
+.pub-abstract-toggle:hover { color: var(--teal); }
+
+/* h-index on faculty card */
+.card-hindex {
+  font-family: var(--font-mono); font-size: 0.6rem;
+  color: var(--teal); margin-top: 2px;
+}
+
+/* Exclusions panel */
+.excl-scroll { max-height: 45vh; overflow-y: auto; margin: 1rem 0 0; }
+.excl-empty { font-size: 0.78rem; color: var(--text3); padding: 0.5rem 0; }
+.excl-faculty-block { margin-bottom: 1.1rem; }
+.excl-faculty-label { font-size: 0.72rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.excl-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono); font-size: 0.65rem;
+  background: var(--bg3); border: 1px solid var(--border);
+  padding: 2px 7px; margin: 2px; color: var(--text2); border-radius: 2px;
+}
+.excl-chip button {
+  background: none; border: none; color: var(--coral);
+  cursor: pointer; font-size: 0.72rem; padding: 0; line-height: 1;
+}
+.excl-chip button:hover { color: #ff9080; }
+.excl-json-block {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 4px; padding: 0.75rem;
+  font-family: var(--font-mono); font-size: 0.62rem; color: var(--text2);
+  max-height: 160px; overflow-y: auto; margin-bottom: 0.75rem;
+  white-space: pre;
+}
+.modal-box--wide { width: 480px; max-width: 92vw; }
+.modal-hidden { display: none; }
+.modal-actions--top { margin-top: 0.75rem; }
+.excl-details { margin-top: 0.75rem; }
+.excl-details summary { font-size: 0.7rem; color: var(--text3); cursor: pointer; margin-bottom: 0.5rem; }
+.excl-code { font-family: var(--font-mono); font-size: 0.7rem; }
+
+/* Photo upload */
+.photo-upload-zone {
+  border: 2px dashed var(--border2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  margin-bottom: 1rem;
+}
+.photo-upload-zone:hover { border-color: var(--gold); }
+.photo-upload-zone input[type=file] { display: none; }
+.upload-hint { font-size: 0.75rem; color: var(--text3); margin-top: 6px; }
+.upload-preview-circle { display:block;width:80px;height:80px;border-radius:50%;overflow:hidden;margin:0 auto 0.75rem;border:2px solid var(--gold); }
+.upload-preview-hidden { display:none !important; }
+.upload-preview-img { width:100%;height:100%;object-fit:cover; }
+.upload-icon-glyph { display:block;font-size:2rem;margin-bottom:0.5rem; }
+.upload-click-text { display:block;font-size:0.8rem;color:var(--text2); }
+.photo-tab-desc { font-size:0.78rem;color:var(--text2);margin-bottom:1rem; }
+.photo-tab-tip { font-size:0.68rem;color:var(--text3);margin-top:0.75rem; }
+.photo-save-btn { display:inline-block;width:auto;flex:unset;padding:8px 20px; }
+.photo-clear-btn { margin-left:8px; }
+
+/* Back button */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; font-weight: 600; font-family: var(--font-mono);
+  color: var(--text3); cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  margin: 1rem 1.5rem 0;
+  transition: all 0.15s;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.back-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ─── ADD FACULTY MODAL ─── */
+.add-fac-step { display: none; }
+.add-fac-step.active { display: block; }
+.form-row { margin-bottom: 0.9rem; }
+.form-row .modal-label { display: block; margin-bottom: 4px; }
+.form-hint { font-size: 0.65rem; color: var(--text3); margin-top: 3px; }
+.form-row-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0.9rem; }
+
+.preview-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+.preview-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--bg4); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 1rem; font-weight: 700; color: var(--gold); flex-shrink: 0; }
+.preview-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.preview-meta { font-size: 0.7rem; color: var(--text3); margin-top: 2px; }
+.preview-papers { max-height: 220px; overflow-y: auto; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 4px; }
+.preview-paper-item { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.75rem; }
+.preview-paper-item:last-child { border-bottom: none; }
+.preview-paper-title { color: var(--text); line-height: 1.3; margin-bottom: 2px; }
+.preview-paper-meta { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text3); }
+.preview-warning { font-size: 0.7rem; color: var(--gold); background: rgba(232,184,75,0.07); border: 1px solid rgba(232,184,75,0.2); border-radius: 3px; padding: 6px 10px; margin-bottom: 0.75rem; }
+
+.fetch-status { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); margin-top: 8px; min-height: 1.2em; }
+.label-optional { font-weight: 400; color: var(--text3); }
+.preview-more-row { color: var(--text3); font-style: italic; }
+
+/* Custom faculty badge in sidebar */
+.faculty-custom-badge { font-size: 0.55rem; color: var(--teal2); font-family: var(--font-mono); border: 1px solid var(--teal2); padding: 1px 4px; border-radius: 2px; opacity: 0.7; }
+.faculty-remove-btn { background: none; border: none; color: var(--coral); cursor: pointer; font-size: 0.75rem; padding: 2px 4px; opacity: 0; transition: opacity 0.15s; }
+.faculty-item:hover .faculty-remove-btn { opacity: 1; }
+
+/* Loading */
+.loading {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 300px;
+  flex-direction: column; gap: 1rem;
+}
+.spinner {
+  width: 32px; height: 32px;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .sidebar { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
+  .main { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-left">
+    <h1>UT Southwestern <span>Neonatology</span></h1>
+    <div class="header-sub">Division Research Dashboard</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-pill">Faculty: <strong id="total-faculty">—</strong></div>
+    <div class="meta-pill">Publications: <strong id="total-pubs">—</strong></div>
+    <div class="meta-pill">Journals: <strong id="total-journals">—</strong></div>
+    <div class="last-updated" id="last-updated">Loading…</div>
+    <button type="button" class="admin-btn" id="admin-btn" onclick="handleAdminBtn()">Admin</button>
+  </div>
+</header>
+
+<div class="admin-bar" id="admin-bar">
+  <span class="admin-bar-badge">⬤ Admin Mode</span>
+  <button type="button" class="admin-bar-link" onclick="showAddFacultyModal()">+ Add Faculty</button>
+  <button type="button" class="admin-bar-link" onclick="showExclusions()">Excluded Papers</button>
+  <button type="button" class="admin-bar-link admin-bar-sync" id="gh-sync-bar-btn" onclick="githubSync()">↑ Sync to GitHub</button>
+  <button type="button" class="admin-bar-link" onclick="exportAdminData()">Export JSON</button>
+  <button type="button" class="admin-bar-link" onclick="logoutAdmin()">Logout</button>
+</div>
+
+<div class="division-stats">
+  <div class="ds-cell"><div class="ds-num" id="stat-total">—</div><div class="ds-label">Total Papers</div></div>
+  <div class="ds-cell"><div class="ds-num" id="stat-years">—</div><div class="ds-label">Years Active</div></div>
+  <div class="ds-cell"><div class="ds-num" id="stat-reviews">—</div><div class="ds-label">Review Articles</div></div>
+  <div class="ds-cell"><div class="ds-num" id="stat-journals">—</div><div class="ds-label">Distinct Journals</div></div>
+  <div class="ds-cell"><div class="ds-num" id="stat-recent">—</div><div class="ds-label">Last 2 Years</div></div>
+</div>
+
+<div class="main">
+  <nav class="sidebar">
+    <div class="sidebar-search">
+      <input class="search-input" type="text" placeholder="Search faculty…" id="faculty-search" oninput="filterFaculty(this.value)">
+    </div>
+    <div class="faculty-list" id="faculty-list"></div>
+  </nav>
+
+  <div class="content-area" id="content-area">
+    <div id="loading-screen" class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading faculty data…</div>
+    </div>
+
+    <!-- Division overview -->
+    <div class="division-view" id="division-view" style="display:none">
+      <div class="section-title">Faculty</div>
+      <div class="faculty-grid" id="faculty-grid"></div>
+
+      <div class="section-title">Research themes across division</div>
+      <div class="theme-grid" id="theme-grid"></div>
+
+      <div class="section-title">Publication timeline</div>
+      <div class="timeline-chart" id="timeline-chart"></div>
+
+      <div class="section-title">Most active journals</div>
+      <div class="journal-item" id="division-journals"></div>
+    </div>
+
+    <!-- Scholar profile -->
+    <div class="scholar-view" id="scholar-view">
+      <div class="back-btn" onclick="showDivision()">← Division overview</div>
+      <div class="scholar-header">
+        <div class="scholar-avatar" id="sv-avatar"></div>
+        <div class="scholar-meta">
+          <div class="scholar-name" id="sv-name"></div>
+          <div class="scholar-title-line" id="sv-title"></div>
+          <div class="scholar-focus" id="sv-focus"></div>
+        </div>
+      </div>
+      <div class="scholar-stats-row">
+        <div class="ss-cell"><div class="ss-num" id="sv-total">—</div><div class="ss-label">Publications</div></div>
+        <div class="ss-cell"><div class="ss-num" id="sv-span">—</div><div class="ss-label">Active span</div></div>
+        <div class="ss-cell"><div class="ss-num" id="sv-journals">—</div><div class="ss-label">Journals</div></div>
+        <div class="ss-cell"><div class="ss-num" id="sv-recent">—</div><div class="ss-label">Last 2 yrs</div></div>
+        <div class="ss-cell"><div class="ss-num" id="sv-hindex">—</div><div class="ss-label">h-index</div></div>
+        <div class="ss-cell"><div class="ss-num" id="sv-citations">—</div><div class="ss-label">Citations</div></div>
+      </div>
+      <div class="scholar-tabs">
+        <button type="button" class="stab active" onclick="switchScholarTab('papers')">Papers</button>
+        <button type="button" class="stab" onclick="switchScholarTab('trends')">Trends</button>
+        <button type="button" class="stab" onclick="switchScholarTab('journals')">Journals</button>
+        <button type="button" class="stab" onclick="switchScholarTab('photo')">Photo</button>
+      </div>
+      <div class="spane active" id="spane-papers">
+        <div id="sv-papers-list"></div>
+      </div>
+      <div class="spane" id="spane-trends">
+        <div class="trend-bars" id="sv-trend-bars"></div>
+      </div>
+      <div class="spane" id="spane-journals">
+        <div id="sv-journals-list"></div>
+      </div>
+      <div class="spane" id="spane-photo">
+        <p class="photo-tab-desc">Upload a photo for this faculty member. It will be stored locally in your browser.</p>
+        <label class="photo-upload-zone" id="upload-zone">
+          <span id="upload-preview" class="upload-preview-circle upload-preview-hidden">
+            <img id="upload-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Faculty photo preview" class="upload-preview-img">
+          </span>
+          <span id="upload-icon" class="upload-icon-glyph">📷</span>
+          <span class="upload-click-text">Click to upload photo</span>
+          <span class="upload-hint">JPG or PNG · Stored in browser (localStorage)</span>
+          <input type="file" id="photo-input" accept="image/jpeg,image/png" onchange="handlePhotoUpload(event)">
+        </label>
+        <button type="button" class="btn-primary photo-save-btn" onclick="savePhoto()">Save Photo</button>
+        <button type="button" class="btn-secondary photo-clear-btn" onclick="clearPhoto()">Clear</button>
+        <p class="photo-tab-tip">For production: place images in the <code class="excl-code">photos/</code> folder and update faculty.json with the path.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Faculty modal -->
+<div class="modal-overlay modal-hidden" id="add-fac-modal" onclick="if(event.target===this)closeAddFacultyModal()">
+  <div class="modal-box modal-box--wide">
+    <div class="modal-title">Add Faculty Member</div>
+
+    <!-- Step 1: form -->
+    <div class="add-fac-step active" id="add-fac-step-1">
+      <div class="modal-sub">Enter details below. A seed PMID greatly improves accuracy.</div>
+      <div class="form-row">
+        <span class="modal-label">Full Name *</span>
+        <input type="text" class="modal-input" id="af-name" placeholder="e.g. Sarah Johnson" autocomplete="off">
+      </div>
+      <div class="form-row-pair">
+        <div>
+          <span class="modal-label">Academic Title</span>
+          <input type="text" class="modal-input" id="af-title" placeholder="e.g. Associate Professor" autocomplete="off">
+        </div>
+        <div>
+          <span class="modal-label">Email</span>
+          <input type="email" class="modal-input" id="af-email" placeholder="name@utsw.edu" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-row">
+        <span class="modal-label">Focus Areas <span class="label-optional">(comma-separated)</span></span>
+        <input type="text" class="modal-input" id="af-focus" placeholder="e.g. Preterm Birth, Lung Development" autocomplete="off">
+      </div>
+      <div class="form-row">
+        <span class="modal-label">Seed PMID <span class="label-optional">(recommended)</span></span>
+        <input type="text" class="modal-input" id="af-pmid" placeholder="e.g. 38901234" autocomplete="off"
+               onkeydown="if(event.key==='Enter')fetchFacultyPubs()">
+        <div class="form-hint">Enter any PubMed ID from a paper by this person. Used to identify the correct author across name variations.</div>
+      </div>
+      <div class="modal-error" id="af-err"></div>
+      <div class="fetch-status" id="af-status"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" id="af-search-btn" onclick="fetchFacultyPubs()">Search PubMed</button>
+        <button type="button" class="btn-secondary" onclick="closeAddFacultyModal()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Step 2: preview -->
+    <div class="add-fac-step" id="add-fac-step-2">
+      <div class="preview-header">
+        <div class="preview-avatar" id="af-prev-avatar"></div>
+        <div>
+          <div class="preview-name" id="af-prev-name"></div>
+          <div class="preview-meta" id="af-prev-meta"></div>
+        </div>
+      </div>
+      <div class="preview-warning modal-hidden" id="af-prev-warning"></div>
+      <div class="preview-papers" id="af-prev-papers"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" onclick="confirmAddFaculty()">Add to Dashboard</button>
+        <button type="button" class="btn-secondary" onclick="goBackToAddForm()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin login modal -->
+<div class="modal-overlay modal-hidden" id="admin-modal" onclick="if(event.target===this)closeAdminModal()">
+  <div class="modal-box">
+    <div class="modal-title">Admin Access</div>
+    <div class="modal-sub">Enter password to enable admin mode.</div>
+    <div class="modal-label">Password</div>
+    <input type="password" class="modal-input" id="admin-pw"
+           placeholder="Password"
+           autocomplete="current-password"
+           onkeydown="if(event.key==='Enter')submitAdminLogin()">
+    <div class="modal-error" id="admin-err"></div>
+    <div class="modal-actions">
+      <button type="button" class="btn-primary" onclick="submitAdminLogin()">Sign in</button>
+      <button type="button" class="btn-secondary" onclick="closeAdminModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Exclusions modal -->
+<div class="modal-overlay modal-hidden" id="excl-modal" onclick="if(event.target===this)closeExclusions()">
+  <div class="modal-box modal-box--wide">
+    <div class="modal-title">Excluded Publications</div>
+    <div class="modal-sub">
+      Papers removed from display. Deletions are stored in your browser.
+      Use <strong>↑ Sync to GitHub</strong> in the admin bar to commit them to the
+      repository so they persist for all users and survive the weekly re-fetch.
+    </div>
+    <div class="excl-scroll" id="excl-panel"></div>
+    <details class="excl-details" id="excl-json-details">
+      <summary>JSON for faculty.json blocked_pmids</summary>
+      <div class="excl-json-block" id="excl-json-out"></div>
+    </details>
+    <div class="modal-actions modal-actions--top">
+      <button type="button" class="btn-primary" id="copy-excl-btn" onclick="copyExclusions()">Copy JSON</button>
+      <button type="button" class="btn-secondary" onclick="closeExclusions()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- GitHub Sync config modal -->
+<div class="modal-overlay modal-hidden" id="gh-sync-modal" onclick="if(event.target===this)closeGhSyncModal()">
+  <div class="modal-box">
+    <div class="modal-title">Sync to GitHub</div>
+    <div class="modal-sub">
+      Commits updated exclusions directly to your repository — no download needed.
+      Requires a <strong>Personal Access Token</strong> with <code class="excl-code">repo</code> (or <code class="excl-code">public_repo</code>) scope.
+      Token is kept in your browser session only and never stored permanently.
+    </div>
+    <div class="form-row">
+      <span class="modal-label">GitHub Personal Access Token</span>
+      <input type="password" class="modal-input" id="gh-pat-input"
+             placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="current-password">
+    </div>
+    <div class="form-row">
+      <span class="modal-label">Repository <span class="label-optional">(owner/repo-name)</span></span>
+      <input type="text" class="modal-input" id="gh-repo-input"
+             placeholder="username/neonatology-dashboard" autocomplete="off">
+      <div class="form-hint" id="gh-repo-hint"></div>
+    </div>
+    <div class="modal-error" id="gh-sync-err"></div>
+    <div class="modal-actions">
+      <button type="button" class="btn-primary" id="gh-save-sync-btn" onclick="saveAndSync()">Save &amp; Sync Now</button>
+      <button type="button" class="btn-secondary" onclick="closeGhSyncModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── ADMIN CONFIG ────────────────────────────────────
+// SHA-256 hash of the admin password.
+// Default password: "admin"
+// To set your own password, open the browser console and run:
+//   crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword'))
+//     .then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
+// Then replace the string below with the output.
+const ADMIN_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
+
+// ─── STATE ───────────────────────────────────────────
+let FACULTY = [];
+let PUBS = {};      // {faculty_id: {publications: [...], total: N}}
+let currentFacultyId = null;
+let pendingPhotoDataUrl = null;
+let adminMode = sessionStorage.getItem('adminMode') === 'true';
+
+// ─── LOAD DATA ───────────────────────────────────────
+async function loadData() {
+  try {
+    // Load faculty roster
+    const fRes = await fetch('data/faculty.json');
+    FACULTY = await fRes.json();
+
+    // Load publications (pre-fetched by GitHub Action)
+    // Falls back to empty if not yet generated
+    try {
+      const pRes = await fetch('data/publications.json');
+      PUBS = await pRes.json();
+    } catch(e) {
+      console.warn('publications.json not found — run fetch_pubmed.py first');
+      // Create empty structure
+      FACULTY.forEach(f => { PUBS[f.id] = { publications: [], total: 0 }; });
+    }
+
+    // Load last updated
+    try {
+      const tsRes = await fetch('data/last_updated.txt');
+      const ts = await tsRes.text();
+      const d = new Date(ts.trim());
+      document.getElementById('last-updated').textContent =
+        'Updated: ' + d.toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+    } catch(e) {
+      document.getElementById('last-updated').textContent = 'Updated: See GitHub Actions';
+    }
+
+    mergeCustomFaculty();
+    renderAll();
+  } catch(e) {
+    document.getElementById('loading-screen').innerHTML =
+      `<div style="color:var(--coral);font-family:var(--font-mono);font-size:0.8rem;padding:2rem">
+        Error loading data. Make sure you're serving this from a web server.<br><br>
+        <code>python -m http.server 8080</code>
+      </div>`;
+  }
+}
+
+// ─── COMPUTE DIVISION STATS ───────────────────────────
+function getDivisionStats() {
+  let allPubs = [];
+  FACULTY.forEach(f => {
+    allPubs = allPubs.concat(getEffectivePubs(f.id));
+  });
+
+  const totalPubs = allPubs.length;
+  const years = allPubs.map(p => parseInt(p.year)).filter(y => !isNaN(y));
+  const minYr = Math.min(...years);
+  const maxYr = Math.max(...years);
+  const reviews = allPubs.filter(p => (p.tags||[]).includes('Review') || (p.pub_types||[]).some(t => t.toLowerCase().includes('review'))).length;
+  const journals = new Set(allPubs.map(p => p.journal)).size;
+  const thisYear = new Date().getFullYear();
+  const recent = allPubs.filter(p => parseInt(p.year) >= thisYear - 2).length;
+
+  return { totalPubs, minYr, maxYr, reviews, journals, recent, allPubs };
+}
+
+// ─── RENDER ALL ───────────────────────────────────────
+function renderAll() {
+  document.getElementById('loading-screen').style.display = 'none';
+
+  const stats = getDivisionStats();
+
+  // Header meta
+  document.getElementById('total-faculty').textContent = FACULTY.length;
+  document.getElementById('total-pubs').textContent = stats.totalPubs.toLocaleString();
+  document.getElementById('total-journals').textContent = stats.journals;
+
+  // Division stats bar
+  document.getElementById('stat-total').textContent = stats.totalPubs.toLocaleString();
+  document.getElementById('stat-years').textContent = `${stats.minYr}–${stats.maxYr}`;
+  document.getElementById('stat-reviews').textContent = stats.reviews;
+  document.getElementById('stat-journals').textContent = stats.journals;
+  document.getElementById('stat-recent').textContent = stats.recent;
+
+  renderSidebar();
+  renderDivisionView(stats);
+  showDivision();
+  updateAdminUI();
+}
+
+// ─── SIDEBAR ─────────────────────────────────────────
+function renderSidebar() {
+  const list = document.getElementById('faculty-list');
+  list.innerHTML = FACULTY.map(f => {
+    const count    = getEffectivePubs(f.id).length;
+    const photo    = getPhoto(f);
+    const initials = f.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+    const isCustom = !!f._custom;
+    return `
+      <div class="faculty-item" id="fi-${f.id}" onclick="showScholar('${f.id}')">
+        <div class="faculty-avatar">
+          ${photo ? `<img src="${photo}" alt="${f.name}">` : initials}
+        </div>
+        <div class="faculty-info">
+          <div class="faculty-name">
+            ${f.name}
+            ${isCustom ? '<span class="faculty-custom-badge">custom</span>' : ''}
+          </div>
+          <div class="faculty-title">${f.title || 'Faculty'}</div>
+        </div>
+        <div class="faculty-count">${count}</div>
+        ${(adminMode && isCustom) ? `<button type="button" class="faculty-remove-btn" onclick="removeCustomFaculty('${f.id}',event)" title="Remove faculty">✕</button>` : ''}
+      </div>`;
+  }).join('');
+}
+
+function filterFaculty(q) {
+  const items = document.querySelectorAll('.faculty-item');
+  const lower = q.toLowerCase();
+  items.forEach(item => {
+    const name = item.querySelector('.faculty-name').textContent.toLowerCase();
+    item.style.display = name.includes(lower) ? '' : 'none';
+  });
+}
+
+// ─── DIVISION VIEW ────────────────────────────────────
+function renderDivisionView(stats) {
+  // Faculty grid
+  const grid = document.getElementById('faculty-grid');
+  grid.innerHTML = FACULTY.map(f => {
+    const count  = getEffectivePubs(f.id).length;
+    const photo  = getPhoto(f);
+    const initials = f.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+    const hIndex = (PUBS[f.id] || {}).hIndex;
+    return `
+      <div class="faculty-card" onclick="showScholar('${f.id}')">
+        <div class="card-avatar">
+          ${photo ? `<img src="${photo}" alt="${f.name}">` : initials}
+        </div>
+        <div class="card-name">${f.name}</div>
+        <div class="card-title">${f.title || 'Faculty'}</div>
+        <div class="card-pubs">${count} papers</div>
+        ${hIndex != null ? `<div class="card-hindex">h-index ${hIndex}</div>` : ''}
+      </div>`;
+  }).join('');
+
+  // Theme grid — aggregate from focus areas
+  const themes = {};
+  FACULTY.forEach(f => {
+    (f.focus || []).forEach(t => { themes[t] = (themes[t]||0)+1; });
+  });
+  const sortedThemes = Object.entries(themes).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxT = sortedThemes[0]?.[1]||1;
+  const colors = ['#e8b84b','#4ecdc4','#e07060','#9b72cf','#6bcb77','#e07060','#4ecdc4','#e8b84b'];
+  document.getElementById('theme-grid').innerHTML = sortedThemes.map(([name,n],i)=>`
+    <div class="theme-row">
+      <div class="theme-name">${name}</div>
+      <div class="theme-track">
+        <div class="theme-fill" style="width:${Math.round(n/maxT*100)}%;background:${colors[i%colors.length]}"></div>
+      </div>
+      <div class="theme-val">${n}</div>
+    </div>`).join('');
+
+  // Timeline
+  const yearMap = {};
+  stats.allPubs.forEach(p => {
+    const y = parseInt(p.year);
+    if (!isNaN(y)) yearMap[y] = (yearMap[y]||0)+1;
+  });
+  const years = Object.keys(yearMap).sort();
+  const maxYearCount = Math.max(...Object.values(yearMap), 1);
+  document.getElementById('timeline-chart').innerHTML = years.map(yr=>`
+    <div class="tl-row">
+      <div class="tl-yr">${yr}</div>
+      <div class="tl-track">
+        <div class="tl-fill" style="width:${Math.round(yearMap[yr]/maxYearCount*100)}%"></div>
+      </div>
+      <div class="tl-count">${yearMap[yr]}</div>
+    </div>`).join('');
+
+  // Journals
+  const jMap = {};
+  stats.allPubs.forEach(p=>{ if(p.journal) jMap[p.journal]=(jMap[p.journal]||0)+1; });
+  const sortedJ = Object.entries(jMap).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const maxJ = sortedJ[0]?.[1]||1;
+  document.getElementById('division-journals').outerHTML =
+    `<div id="division-journals">${sortedJ.map(([j,n])=>`
+      <div class="journal-item">
+        <div class="journal-name">${j}</div>
+        <div class="journal-track"><div class="journal-fill" style="width:${Math.round(n/maxJ*100)}%"></div></div>
+        <div class="journal-n">${n}</div>
+      </div>`).join('')}
+    </div>`;
+}
+
+// ─── SCHOLAR VIEW ─────────────────────────────────────
+function showScholar(fid) {
+  currentFacultyId = fid;
+  const f = FACULTY.find(x=>x.id===fid);
+  const pubs = getEffectivePubs(fid);
+
+  // Sidebar active
+  document.querySelectorAll('.faculty-item').forEach(el=>el.classList.remove('active'));
+  const sideEl = document.getElementById('fi-'+fid);
+  if(sideEl) { sideEl.classList.add('active'); sideEl.scrollIntoView({block:'nearest'}); }
+
+  // Header
+  const photo = getPhoto(f);
+  const initials = f.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  document.getElementById('sv-avatar').innerHTML =
+    photo ? `<img src="${photo}" alt="${f.name}">` : initials;
+  document.getElementById('sv-name').textContent = f.name;
+  document.getElementById('sv-title').textContent = f.title || 'Neonatal-Perinatal Medicine · UT Southwestern';
+  document.getElementById('sv-focus').innerHTML =
+    (f.focus||[]).map(t=>`<span class="focus-tag">${t}</span>`).join('');
+
+  // Stats
+  const years = pubs.map(p=>parseInt(p.year)).filter(y=>!isNaN(y));
+  const minY = years.length ? Math.min(...years) : '—';
+  const maxY = years.length ? Math.max(...years) : '—';
+  const journals = new Set(pubs.map(p=>p.journal)).size;
+  const thisYear = new Date().getFullYear();
+  const recent = pubs.filter(p=>parseInt(p.year)>=thisYear-2).length;
+
+  document.getElementById('sv-total').textContent = pubs.length;
+  document.getElementById('sv-span').textContent = years.length ? `${minY}–${maxY}` : '—';
+  document.getElementById('sv-journals').textContent = journals;
+  document.getElementById('sv-recent').textContent = recent;
+
+  const fp = PUBS[fid] || {};
+  document.getElementById('sv-hindex').textContent   = fp.hIndex        != null ? fp.hIndex        : '—';
+  document.getElementById('sv-citations').textContent = fp.citationCount != null ? fp.citationCount : '—';
+
+  // Papers list
+  const pubsListEl = document.getElementById('sv-papers-list');
+  const addBar = adminMode ? `
+    <div class="add-paper-bar" id="add-bar-${fid}">
+      <label>+ Add paper by PMID or SS ID:</label>
+      <input type="text" class="add-paper-input" id="add-paper-input-${fid}"
+        placeholder="e.g. 38123456"
+        onkeydown="if(event.key==='Enter')lookupPaper('${fid}')">
+      <button class="btn-add-paper" id="add-paper-btn-${fid}" onclick="lookupPaper('${fid}')">Look up</button>
+      <div class="add-paper-status" id="add-paper-status-${fid}"></div>
+    </div>
+    <div class="add-paper-preview" id="add-paper-preview-${fid}">
+      <div class="preview-title" id="app-title-${fid}"></div>
+      <div class="preview-meta" id="app-meta-${fid}"></div>
+      <div class="preview-authors" id="app-authors-${fid}"></div>
+      <div class="preview-actions">
+        <button class="btn-confirm-add" onclick="confirmAddPaper('${fid}')">Add to profile</button>
+        <button class="btn-cancel-add" onclick="cancelAddPaper('${fid}')">Cancel</button>
+      </div>
+    </div>` : '';
+
+  if (!pubs.length && !adminMode) {
+    pubsListEl.innerHTML = '<div class="pub-empty">No publications loaded. Run the GitHub Action to fetch PubMed data.</div>';
+  } else {
+    const bulkBar = adminMode ? `
+      <div class="bulk-delete-bar" id="bulk-bar-${fid}">
+        <button class="btn-sel-all" onclick="selectAllPubs('${fid}')">Select all</button>
+        <span id="bulk-count-${fid}">0 selected</span>
+        <button class="btn-bulk-del" onclick="deleteSelectedPubs('${fid}')">Delete selected</button>
+        <button class="btn-sel-all" onclick="clearPubSelection('${fid}')">Clear</button>
+      </div>` : '';
+    const items = pubs.map(p => {
+      const clickHandler  = p.doi ? `openPubLink('${encodeURIComponent(p.doi)}',event)` : '';
+      const oaBadge       = p.openAccessUrl
+        ? `<a href="${p.openAccessUrl}" target="_blank" onclick="event.stopPropagation()" class="pub-tag-oa">Open Access</a>`
+        : '';
+      const citeBadge     = p.citationCount != null
+        ? `<span class="pub-citations">Cited ${p.citationCount}×</span>`
+        : '';
+      const abstractBlock = p.abstract
+        ? `<button class="pub-abstract-toggle" onclick="toggleAbstract(this,event)">&#9658; Abstract</button>
+           <div class="pub-abstract">${escapeHtml(p.abstract)}</div>`
+        : '';
+
+      if (adminMode) {
+        return `
+        <div class="pub-item" id="pub-${fid}-${p.pmid}" onclick="${clickHandler}">
+          <div class="pub-item-admin-row">
+            <input type="checkbox" class="pub-select-cb" id="cb-${fid}-${p.pmid}"
+              onclick="togglePubSelect('${fid}','${p.pmid}',event)">
+            <div class="pub-item-body">
+              <div class="pub-tags-row" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+                <div>
+                  ${(p.tags||[]).map(t=>`<span class="pub-tag">${t}</span>`).join('')}
+                  ${oaBadge}
+                  ${p._manual?'<span class="pub-tag-manual">manually added</span>':''}
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  ${citeBadge}
+                  <button type="button" class="delete-btn" onclick="deletePaper('${fid}','${p.pmid}',event)">Delete</button>
+                </div>
+              </div>
+              <div class="pub-title">${p.title}</div>
+              <div class="pub-meta">
+                <span>${p.year}</span>
+                <span>${p.journal}</span>
+                ${p.doi?`<span class="pub-doi">DOI: ${p.doi}</span>`:''}
+              </div>
+              <div class="pub-meta pub-authors">${(p.authors||[]).join(', ')}</div>
+              ${abstractBlock}
+            </div>
+          </div>
+        </div>`;
+      } else {
+        return `
+        <div class="pub-item" onclick="${clickHandler}">
+          <div class="pub-tags-row" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            ${(p.tags||[]).map(t=>`<span class="pub-tag">${t}</span>`).join('')}
+            ${oaBadge}
+            ${citeBadge ? `<span style="margin-left:auto;">${citeBadge}</span>` : ''}
+          </div>
+          <div class="pub-title">${p.title}</div>
+          <div class="pub-meta">
+            <span>${p.year}</span>
+            <span>${p.journal}</span>
+            ${p.doi?`<span class="pub-doi">DOI: ${p.doi}</span>`:''}
+          </div>
+          <div class="pub-meta pub-authors">${(p.authors||[]).join(', ')}</div>
+          ${abstractBlock}
+        </div>`;
+      }
+    }).join('');
+    pubsListEl.innerHTML = addBar + bulkBar + items;
+  }
+
+  // Trends
+  const yearMap = {};
+  pubs.forEach(p=>{ const y=parseInt(p.year); if(!isNaN(y)) yearMap[y]=(yearMap[y]||0)+1; });
+  const tYears = Object.keys(yearMap).sort();
+  const maxN = Math.max(...Object.values(yearMap),1);
+  document.getElementById('sv-trend-bars').innerHTML = tYears.map(yr=>`
+    <div class="trend-col">
+      <div class="trend-n">${yearMap[yr]}</div>
+      <div class="trend-bar" style="height:${Math.round(yearMap[yr]/maxN*60)}px"></div>
+      <div class="trend-yr">${yr}</div>
+    </div>`).join('');
+
+  // Journals
+  const jMap = {};
+  pubs.forEach(p=>{ if(p.journal) jMap[p.journal]=(jMap[p.journal]||0)+1; });
+  const sortedJ = Object.entries(jMap).sort((a,b)=>b[1]-a[1]);
+  const maxJ = sortedJ[0]?.[1]||1;
+  document.getElementById('sv-journals-list').innerHTML = sortedJ.map(([j,n])=>`
+    <div class="journal-item">
+      <div class="journal-name">${j}</div>
+      <div class="journal-track"><div class="journal-fill" style="width:${Math.round(n/maxJ*100)}%"></div></div>
+      <div class="journal-n">${n}</div>
+    </div>`).join('');
+
+  // Photo tab state
+  loadPhotoTab(f);
+
+  // Show/hide
+  document.getElementById('division-view').style.display = 'none';
+  document.getElementById('scholar-view').classList.add('active');
+  switchScholarTab('papers');
+}
+
+function showDivision() {
+  currentFacultyId = null;
+  document.querySelectorAll('.faculty-item').forEach(el=>el.classList.remove('active'));
+  document.getElementById('scholar-view').classList.remove('active');
+  const stats = getDivisionStats();
+  renderDivisionView(stats);
+  document.getElementById('division-view').style.display = '';
+}
+
+function switchScholarTab(id) {
+  document.querySelectorAll('.stab').forEach((t,i)=>{
+    const ids=['papers','trends','journals','photo'];
+    t.classList.toggle('active',ids[i]===id);
+  });
+  document.querySelectorAll('.spane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('spane-'+id).classList.add('active');
+}
+
+// ─── PHOTO MANAGEMENT ────────────────────────────────
+function getPhoto(f) {
+  if (!f) return null;
+  // 1. Check localStorage override
+  const stored = localStorage.getItem('photo_' + f.id);
+  if (stored) return stored;
+  // 2. Check faculty.json path
+  if (f.photo && f.photo.length > 0) return f.photo;
+  return null;
+}
+
+function setPhotoPreview(show, src) {
+  const preview = document.getElementById('upload-preview');
+  const icon    = document.getElementById('upload-icon');
+  preview.classList.toggle('upload-preview-hidden', !show);
+  icon.classList.toggle('upload-preview-hidden', show);
+  if (src) document.getElementById('upload-img').src = src;
+}
+
+function loadPhotoTab(f) {
+  const stored = localStorage.getItem('photo_' + f.id);
+  setPhotoPreview(!!stored, stored || null);
+  pendingPhotoDataUrl = null;
+}
+
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingPhotoDataUrl = ev.target.result;
+    setPhotoPreview(true, pendingPhotoDataUrl);
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePhoto() {
+  if (!pendingPhotoDataUrl || !currentFacultyId) return;
+  localStorage.setItem('photo_' + currentFacultyId, pendingPhotoDataUrl);
+  alert('Photo saved! Refresh the page to see it in all views.');
+  renderSidebar();
+}
+
+function clearPhoto() {
+  if (!currentFacultyId) return;
+  localStorage.removeItem('photo_' + currentFacultyId);
+  pendingPhotoDataUrl = null;
+  setPhotoPreview(false, null);
+  document.getElementById('photo-input').value = '';
+  renderSidebar();
+}
+
+// ─── BROWSER-SIDE NCBI API ───────────────────────────
+// These mirror the Python fetch_pubmed.py functions but run in the browser.
+// NCBI E-utilities supports CORS for browser requests.
+
+const EUTILS   = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
+const DISAMBIG = "https://www.ncbi.nlm.nih.gov/research/litsense-api/api/author/";
+const NCBI_TOOL  = "NeonatologyDivisionDashboard";
+const NCBI_EMAIL = "dashboard@division.edu";
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function browserDisambig(seedPmid, fullName) {
+  const parts   = fullName.trim().split(/\s+/);
+  const last    = parts[parts.length - 1];
+  const initial = parts[0][0].toUpperCase();
+  const query   = `${seedPmid} ${last} ${initial}`;
+  const url     = `${DISAMBIG}?query=${encodeURIComponent(query)}`;
+  try {
+    const r    = await fetch(url, { headers: { Accept: "application/json" } });
+    const data = await r.json();
+    if (data.results?.[0]?.pmids) return data.results[0].pmids.map(String);
+    if (data.pmids)                return data.pmids.map(String);
+    return [];
+  } catch { return []; }
+}
+
+async function browserEsearch(query, max = 200) {
+  const params = new URLSearchParams({
+    db: "pubmed", term: query, retmax: max,
+    retmode: "json", sort: "pub_date",
+    tool: NCBI_TOOL, email: NCBI_EMAIL
+  });
+  try {
+    const r    = await fetch(`${EUTILS}/esearch.fcgi?${params}`);
+    const data = await r.json();
+    return data.esearchresult?.idlist ?? [];
+  } catch { return []; }
+}
+
+async function browserEfetch(pmids) {
+  if (!pmids.length) return {};
+  const params = new URLSearchParams({
+    db: "pubmed", id: pmids.join(","),
+    retmode: "json", tool: NCBI_TOOL, email: NCBI_EMAIL
+  });
+  try {
+    const r    = await fetch(`${EUTILS}/esummary.fcgi?${params}`);
+    const data = await r.json();
+    return data.result ?? {};
+  } catch { return {}; }
+}
+
+function browserParseArticle(pmid, s) {
+  const authors = (s.authors ?? []).slice(0, 6).map(a => a.name ?? "");
+  if ((s.authors ?? []).length > 6) authors.push("et al.");
+  const year  = (s.pubdate ?? "").slice(0, 4) || "Unknown";
+  let doi = "";
+  for (const aid of s.articleids ?? []) {
+    if (aid.idtype === "doi") { doi = aid.value; break; }
+  }
+  const pts    = (s.pubtype ?? []).map(p => p.toLowerCase()).join(" ");
+  const tags   = [];
+  if (pts.includes("review"))        tags.push("Review");
+  if (pts.includes("clinical trial") || pts.includes("randomized")) tags.push("Clinical Trial");
+  if (pts.includes("multicenter"))   tags.push("Multicenter");
+  return {
+    pmid, title: (s.title ?? "").replace(/\.$/, ""),
+    authors, journal: s.source ?? "", year, doi, tags,
+    pub_types: s.pubtype ?? []
+  };
+}
+
+async function fetchAllArticles(pmids, onProgress) {
+  const articles = [];
+  for (let i = 0; i < pmids.length; i += 20) {
+    const batch = pmids.slice(i, i + 20);
+    const sums  = await browserEfetch(batch);
+    for (const pmid of batch) {
+      if (sums[pmid]) articles.push(browserParseArticle(pmid, sums[pmid]));
+    }
+    if (onProgress) onProgress(Math.min(i + 20, pmids.length), pmids.length);
+    if (i + 20 < pmids.length) await sleep(350);
+  }
+  articles.sort((a, b) => b.year.localeCompare(a.year));
+  return articles;
+}
+
+// ─── CUSTOM FACULTY (localStorage) ───────────────────
+const LS_CUSTOM_FACULTY = "custom_faculty_v1";
+
+function getCustomFaculty() {
+  try { return JSON.parse(localStorage.getItem(LS_CUSTOM_FACULTY) || "[]"); }
+  catch { return []; }
+}
+
+function saveCustomFaculty(list) {
+  localStorage.setItem(LS_CUSTOM_FACULTY, JSON.stringify(list));
+}
+
+function getCustomPubs(fid) {
+  try { return JSON.parse(localStorage.getItem("custom_pubs_" + fid) || "null"); }
+  catch { return null; }
+}
+
+function saveCustomPubs(fid, pubsObj) {
+  localStorage.setItem("custom_pubs_" + fid, JSON.stringify(pubsObj));
+}
+
+function removeCustomFaculty(fid, event) {
+  if (event) event.stopPropagation();
+  const f = FACULTY.find(x => x.id === fid);
+  if (!confirm(`Remove ${f?.name ?? fid} from the dashboard?\n\nThis does not affect faculty.json — they will reappear on next page load unless removed from the file.`)) return;
+  const updated = getCustomFaculty().filter(x => x.id !== fid);
+  saveCustomFaculty(updated);
+  localStorage.removeItem("custom_pubs_" + fid);
+  localStorage.removeItem("deleted_" + fid);
+  // Remove from runtime arrays and re-render
+  FACULTY = FACULTY.filter(x => x.id !== fid);
+  delete PUBS[fid];
+  const stats = getDivisionStats();
+  renderSidebar();
+  renderDivisionView(stats);
+  updateHeaderStats();
+  if (currentFacultyId === fid) showDivision();
+}
+
+function mergeCustomFaculty() {
+  // Called once after static data loads — injects localStorage-stored faculty
+  const custom = getCustomFaculty();
+  for (const f of custom) {
+    if (!FACULTY.find(x => x.id === f.id)) FACULTY.push(f);
+    const pubs = getCustomPubs(f.id);
+    if (pubs && !PUBS[f.id]) PUBS[f.id] = pubs;
+  }
+}
+
+// ─── ADD FACULTY MODAL ────────────────────────────────
+let _pendingFaculty = null;   // holds {faculty, pubs} between step 1 and confirm
+
+function showAddFacultyModal() {
+  document.getElementById("add-fac-modal").classList.remove("modal-hidden");
+  goBackToAddForm();
+}
+
+function closeAddFacultyModal() {
+  document.getElementById("add-fac-modal").classList.add("modal-hidden");
+  _pendingFaculty = null;
+}
+
+function goBackToAddForm() {
+  document.getElementById("add-fac-step-1").classList.add("active");
+  document.getElementById("add-fac-step-2").classList.remove("active");
+  document.getElementById("af-err").textContent    = "";
+  document.getElementById("af-status").textContent = "";
+  const btn = document.getElementById("af-search-btn");
+  btn.disabled    = false;
+  btn.textContent = "Search PubMed";
+  _pendingFaculty = null;
+  setTimeout(() => document.getElementById("af-name").focus(), 50);
+}
+
+async function fetchFacultyPubs() {
+  const name  = document.getElementById("af-name").value.trim();
+  const pmid  = document.getElementById("af-pmid").value.trim().replace(/\D/g, "");
+  const errEl = document.getElementById("af-err");
+  const statEl = document.getElementById("af-status");
+  const btn   = document.getElementById("af-search-btn");
+
+  errEl.textContent = "";
+  if (!name) { errEl.textContent = "Full name is required."; return; }
+
+  btn.disabled    = true;
+  btn.textContent = "Searching…";
+
+  let pmids = [];
+  let method = "text search";
+
+  // Step 1 — try disambiguation API if seed PMID given
+  if (pmid) {
+    statEl.textContent = "Querying author disambiguation API…";
+    pmids  = await browserDisambig(pmid, name);
+    method = "disambiguation";
+  }
+
+  // Step 2 — fallback: text search scoped to neonatology terms
+  if (!pmids.length) {
+    const parts   = name.split(/\s+/);
+    const last    = parts[parts.length - 1];
+    const initial = parts[0][0].toUpperCase();
+    const query   = `${last} ${initial}[Author] AND (Neonatal OR NICU OR Perinatal OR Resuscitation OR Pediatrics)`;
+    statEl.textContent = "Searching PubMed by name…";
+    pmids  = await browserEsearch(query);
+    method = "name search (may include unrelated authors)";
+  }
+
+  if (!pmids.length) {
+    btn.disabled    = false;
+    btn.textContent = "Search PubMed";
+    errEl.textContent = "No publications found. Try adding a seed PMID or check the spelling.";
+    statEl.textContent = "";
+    return;
+  }
+
+  // Step 3 — fetch article summaries
+  statEl.textContent = `Fetching ${pmids.length} articles…`;
+  const articles = await fetchAllArticles(pmids, (done, total) => {
+    statEl.textContent = `Fetching articles… ${done}/${total}`;
+  });
+  statEl.textContent = "";
+  btn.disabled    = false;
+  btn.textContent = "Search PubMed";
+
+  // Build faculty object
+  const fid = "custom-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const focus = document.getElementById("af-focus").value
+    .split(",").map(s => s.trim()).filter(Boolean);
+  const faculty = {
+    id:           fid,
+    name,
+    title:        document.getElementById("af-title").value.trim() || "Faculty",
+    email:        document.getElementById("af-email").value.trim(),
+    photo:        "",
+    focus,
+    seed_pmid:    pmid || "",
+    pubmed_query: "",
+    blocked_pmids: [],
+    _custom: true
+  };
+
+  const pubsObj = { faculty_id: fid, publications: articles, total: articles.length };
+  _pendingFaculty = { faculty, pubsObj, method };
+
+  // Show preview
+  showAddFacultyPreview(faculty, pubsObj, method);
+}
+
+function showAddFacultyPreview(f, pubsObj, method) {
+  const initials = f.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+  const years    = pubsObj.publications.map(p => parseInt(p.year)).filter(y => !isNaN(y));
+  const minY     = years.length ? Math.min(...years) : "?";
+  const maxY     = years.length ? Math.max(...years) : "?";
+
+  document.getElementById("af-prev-avatar").textContent = initials;
+  document.getElementById("af-prev-name").textContent   = f.name;
+  document.getElementById("af-prev-meta").textContent   =
+    `${pubsObj.total} publications · ${minY}–${maxY} · via ${method}`;
+
+  const warning = document.getElementById("af-prev-warning");
+  if (method.includes("name search")) {
+    warning.textContent = "⚠ Results are from a name-based search — some papers may belong to other authors with the same name. Add a seed PMID for precise results.";
+    warning.classList.remove("modal-hidden");
+  } else {
+    warning.classList.add("modal-hidden");
+  }
+
+  const list = pubsObj.publications.slice(0, 8);
+  document.getElementById("af-prev-papers").innerHTML = list.map(p => `
+    <div class="preview-paper-item">
+      <div class="preview-paper-title">${p.title}</div>
+      <div class="preview-paper-meta">${p.year} · ${p.journal}</div>
+    </div>`).join("") + (pubsObj.total > 8
+      ? `<div class="preview-paper-item preview-more-row">…and ${pubsObj.total - 8} more</div>`
+      : "");
+
+  document.getElementById("add-fac-step-1").classList.remove("active");
+  document.getElementById("add-fac-step-2").classList.add("active");
+}
+
+function confirmAddFaculty() {
+  if (!_pendingFaculty) return;
+  const { faculty, pubsObj } = _pendingFaculty;
+
+  // Check for duplicate
+  if (FACULTY.find(f => f.id === faculty.id)) {
+    // Already exists — just update publications
+    PUBS[faculty.id] = pubsObj;
+    saveCustomPubs(faculty.id, pubsObj);
+  } else {
+    // Add to runtime arrays
+    FACULTY.push(faculty);
+    PUBS[faculty.id] = pubsObj;
+    // Persist
+    const custom = getCustomFaculty();
+    custom.push(faculty);
+    saveCustomFaculty(custom);
+    saveCustomPubs(faculty.id, pubsObj);
+  }
+
+  closeAddFacultyModal();
+
+  // Re-render everything
+  const stats = getDivisionStats();
+  renderSidebar();
+  renderDivisionView(stats);
+  updateHeaderStats();
+  showScholar(faculty.id);
+}
+
+// ─── UTILITIES ───────────────────────────────────────
+function escapeHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toggleAbstract(btn, event) {
+  event.stopPropagation();
+  const abs  = btn.nextElementSibling;
+  const open = abs.classList.toggle('open');
+  btn.innerHTML = open ? '&#9660; Abstract' : '&#9658; Abstract';
+}
+
+// ─── EXPORT ──────────────────────────────────────────
+function downloadJson(filename, data) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const a    = Object.assign(document.createElement("a"), {
+    href: URL.createObjectURL(blob), download: filename
+  });
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+function exportAdminData() {
+  // faculty.json — merge static + custom faculty, fold deletions into blocked_pmids,
+  //               fold manually-added PMIDs into manual_pmids so the fetch script
+  //               can permanently store them.
+  const allFaculty = FACULTY.map(({ _custom, ...rest }) => {
+    const result = { ...rest };
+
+    // Fold locally deleted papers into blocked_pmids
+    const locallyDeleted = getDeletedPmids(rest.id);
+    if (locallyDeleted.length) {
+      result.blocked_pmids = [...new Set([...(rest.blocked_pmids || []), ...locallyDeleted])];
+    }
+
+    // Fold manually added papers into manual_pmids (PMIDs only; SS-only IDs go into manual_ss_ids)
+    const customPubs = getCustomPubs(rest.id);
+    if (customPubs.length) {
+      const manualPmids = customPubs.map(p => p.pmid).filter(id => /^\d+$/.test(id));
+      const manualSsIds = customPubs.map(p => p.paper_id).filter(id => id && !/^\d+$/.test(id));
+      if (manualPmids.length) {
+        result.manual_pmids = [...new Set([...(rest.manual_pmids || []), ...manualPmids])];
+      }
+      if (manualSsIds.length) {
+        result.manual_ss_ids = [...new Set([...(rest.manual_ss_ids || []), ...manualSsIds])];
+      }
+    }
+
+    return result;
+  });
+  downloadJson("faculty.json", allFaculty);
+
+  // publications.json — all pubs including manually added, with deletions applied.
+  // _blocked carries the merged exclusion list so fetch_pubmed.py can re-apply it
+  // on the next run even if faculty.json was never committed.
+  const allPubs = {};
+  allFaculty.forEach(f => {
+    const pubs = getEffectivePubs(f.id);
+    // Merge: blocked_pmids already includes admin deletions (folded above),
+    // plus any _blocked already persisted in the loaded publications data.
+    const existingBlocked = (PUBS[f.id] || {})._blocked || [];
+    const allBlocked = [...new Set([...(f.blocked_pmids || []), ...existingBlocked])];
+    const entry = { faculty_id: f.id, publications: pubs, total: pubs.length };
+    if (allBlocked.length) entry._blocked = allBlocked;
+    allPubs[f.id] = entry;
+  });
+  downloadJson("publications.json", allPubs);
+}
+
+// ─── ADMIN AUTH ──────────────────────────────────────
+async function hashPassword(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function handleAdminBtn() {
+  if (adminMode) {
+    if (confirm('Exit admin mode?')) logoutAdmin();
+  } else {
+    showAdminModal();
+  }
+}
+
+function showAdminModal() {
+  document.getElementById('admin-modal').classList.remove('modal-hidden');
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('admin-err').textContent = '';
+  setTimeout(() => document.getElementById('admin-pw').focus(), 50);
+}
+
+function closeAdminModal() {
+  document.getElementById('admin-modal').classList.add('modal-hidden');
+}
+
+async function submitAdminLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (!pw) return;
+  const hash = await hashPassword(pw);
+  if (hash === ADMIN_HASH) {
+    sessionStorage.setItem('adminMode', 'true');
+    adminMode = true;
+    closeAdminModal();
+    updateAdminUI();
+    // Re-render current view to show delete buttons
+    if (currentFacultyId) showScholar(currentFacultyId); else renderAll();
+  } else {
+    document.getElementById('admin-err').textContent = 'Incorrect password.';
+    document.getElementById('admin-pw').select();
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem('adminMode');
+  adminMode = false;
+  updateAdminUI();
+  if (currentFacultyId) showScholar(currentFacultyId); else renderAll();
+}
+
+function updateAdminUI() {
+  document.getElementById('admin-bar').style.display = adminMode ? 'flex' : 'none';
+  const btn = document.getElementById('admin-btn');
+  btn.classList.toggle('active', adminMode);
+  btn.textContent = adminMode ? 'Admin ●' : 'Admin';
+}
+
+// ─── GITHUB SYNC ─────────────────────────────────────
+const GH_CONFIG_KEY = 'gh_config_v1';
+
+function getGhConfig() {
+  try { return JSON.parse(sessionStorage.getItem(GH_CONFIG_KEY) || 'null') || {}; }
+  catch { return {}; }
+}
+
+function saveGhConfig(pat, repo) {
+  sessionStorage.setItem(GH_CONFIG_KEY, JSON.stringify({ pat, repo }));
+}
+
+function detectGhRepo() {
+  // GitHub Pages URLs: username.github.io/repo-name/
+  const m = window.location.hostname.match(/^([^.]+)\.github\.io$/);
+  if (!m) return '';
+  const owner = m[1];
+  const seg = window.location.pathname.replace(/^\//, '').split('/')[0];
+  return seg ? `${owner}/${seg}` : `${owner}/${owner}.github.io`;
+}
+
+function showGhSyncModal() {
+  const cfg = getGhConfig();
+  const repoEl = document.getElementById('gh-repo-input');
+  const patEl  = document.getElementById('gh-pat-input');
+  const hint   = document.getElementById('gh-repo-hint');
+
+  const detected = detectGhRepo();
+  repoEl.value = cfg.repo || detected;
+  patEl.value  = cfg.pat ? '••••••••' : '';
+  hint.textContent = detected ? `Auto-detected from URL: ${detected}` : '';
+
+  document.getElementById('gh-sync-err').textContent = '';
+  document.getElementById('gh-sync-modal').classList.remove('modal-hidden');
+  setTimeout(() => (cfg.pat ? repoEl : patEl).focus(), 50);
+}
+
+function closeGhSyncModal() {
+  document.getElementById('gh-sync-modal').classList.add('modal-hidden');
+}
+
+// Entry point: called by admin bar button
+function githubSync() {
+  const cfg = getGhConfig();
+  if (!cfg.pat || !cfg.repo) { showGhSyncModal(); return; }
+  doGitHubSync(cfg);
+}
+
+// Called by modal "Save & Sync Now"
+async function saveAndSync() {
+  const patRaw = document.getElementById('gh-pat-input').value.trim();
+  const repo   = document.getElementById('gh-repo-input').value.trim();
+  const errEl  = document.getElementById('gh-sync-err');
+  errEl.textContent = '';
+
+  if (!patRaw || patRaw === '••••••••') {
+    errEl.textContent = 'Please enter a GitHub Personal Access Token.';
+    return;
+  }
+  if (!/^[^/]+\/[^/]+$/.test(repo)) {
+    errEl.textContent = 'Repository must be in "owner/repo-name" format.';
+    return;
+  }
+
+  saveGhConfig(patRaw, repo);
+  closeGhSyncModal();
+  doGitHubSync({ pat: patRaw, repo });
+}
+
+// Build the publications.json payload (with _blocked) — mirrors exportAdminData logic
+function buildPublicationsPayload() {
+  const allFaculty = FACULTY.map(({ _custom, ...rest }) => {
+    const result = { ...rest };
+    const locallyDeleted = getDeletedPmids(rest.id);
+    if (locallyDeleted.length) {
+      result.blocked_pmids = [...new Set([...(rest.blocked_pmids || []), ...locallyDeleted])];
+    }
+    return result;
+  });
+
+  const allPubs = {};
+  allFaculty.forEach(f => {
+    const pubs = getEffectivePubs(f.id);
+    const existingBlocked = (PUBS[f.id] || {})._blocked || [];
+    const allBlocked = [...new Set([...(f.blocked_pmids || []), ...existingBlocked])];
+    const entry = { faculty_id: f.id, publications: pubs, total: pubs.length };
+    if (allBlocked.length) entry._blocked = allBlocked;
+    allPubs[f.id] = entry;
+  });
+  return allPubs;
+}
+
+// UTF-8-safe base64 (required for non-ASCII characters in titles/author names)
+function utf8ToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function doGitHubSync(cfg) {
+  const barBtn = document.getElementById('gh-sync-bar-btn');
+  barBtn.textContent = '↻ Syncing…';
+  barBtn.disabled = true;
+
+  try {
+    const [owner, repo] = cfg.repo.split('/');
+    const base    = `https://api.github.com/repos/${owner}/${repo}/contents`;
+    const apiPath = 'data/publications.json';
+    const headers = {
+      'Authorization': `token ${cfg.pat}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+    };
+
+    // 1. Fetch current SHA (required by GitHub API to update an existing file)
+    const getResp = await fetch(`${base}/${apiPath}`, { headers });
+    if (!getResp.ok) {
+      const e = await getResp.json().catch(() => ({}));
+      throw new Error(e.message || `GitHub API ${getResp.status}`);
+    }
+    const { sha } = await getResp.json();
+
+    // 2. Build and encode payload
+    const payload = buildPublicationsPayload();
+    const content = utf8ToBase64(JSON.stringify(payload, null, 2));
+    const today   = new Date().toISOString().split('T')[0];
+
+    // 3. Commit via GitHub Contents API
+    const putResp = await fetch(`${base}/${apiPath}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        message: `Admin: update exclusions ${today}`,
+        content,
+        sha,
+      }),
+    });
+
+    if (!putResp.ok) {
+      const e = await putResp.json().catch(() => ({}));
+      throw new Error(e.message || `GitHub API ${putResp.status}`);
+    }
+
+    barBtn.textContent = '✓ Synced';
+    barBtn.style.color = 'var(--teal)';
+    setTimeout(() => {
+      barBtn.textContent = '↑ Sync to GitHub';
+      barBtn.style.color = '';
+      barBtn.disabled = false;
+    }, 3000);
+
+  } catch (err) {
+    barBtn.textContent = '✗ Sync failed';
+    barBtn.style.color = 'var(--coral)';
+    barBtn.title = err.message;
+    console.error('GitHub sync error:', err);
+    setTimeout(() => {
+      barBtn.textContent = '↑ Sync to GitHub';
+      barBtn.style.color = '';
+      barBtn.title = '';
+      barBtn.disabled = false;
+    }, 5000);
+  }
+}
+
+// ─── DELETED PAPERS ──────────────────────────────────
+function getDeletedPmids(fid) {
+  try { return JSON.parse(localStorage.getItem('deleted_' + fid) || '[]'); }
+  catch { return []; }
+}
+
+// ─── CUSTOM (MANUALLY ADDED) PAPERS ─────────────────
+function getCustomPubs(fid) {
+  try { return JSON.parse(localStorage.getItem('custom_pubs_' + fid) || '[]'); }
+  catch { return []; }
+}
+function saveCustomPubs(fid, arr) {
+  localStorage.setItem('custom_pubs_' + fid, JSON.stringify(arr));
+}
+
+function getEffectivePubs(fid) {
+  const fp = PUBS[fid];
+  const base = fp ? (fp.publications || []) : [];
+  const deleted = getDeletedPmids(fid);
+  const custom = getCustomPubs(fid);
+  // Merge: base + custom, dedupe by pmid, then filter deleted
+  const seen = new Set();
+  const merged = [];
+  for (const p of [...base, ...custom]) {
+    const uid = p.pmid || p.paper_id || '';
+    if (!uid || seen.has(uid)) continue;
+    seen.add(uid);
+    merged.push(p);
+  }
+  if (!deleted.length) return merged;
+  return merged.filter(p => !deleted.includes(p.pmid));
+}
+
+// ─── ADD PAPER BY PMID ───────────────────────────────
+const SS_PAPER_FIELDS = 'paperId,title,authors,year,venue,journal,externalIds,publicationTypes,publicationDate';
+let _pendingPaper = {}; // fid → paper object awaiting confirmation
+
+async function lookupPaper(fid) {
+  const input = document.getElementById(`add-paper-input-${fid}`);
+  const btn   = document.getElementById(`add-paper-btn-${fid}`);
+  const status = document.getElementById(`add-paper-status-${fid}`);
+  const preview = document.getElementById(`add-paper-preview-${fid}`);
+  const raw = (input?.value || '').trim();
+  if (!raw) return;
+
+  // Determine lookup ID: pure digits → PMID prefix, else treat as SS paper ID
+  const isPmid = /^\d+$/.test(raw);
+  const lookupId = isPmid ? `PMID:${raw}` : raw;
+
+  btn.disabled = true;
+  status.className = 'add-paper-status';
+  status.textContent = 'Looking up…';
+  preview.classList.remove('visible');
+
+  try {
+    const url = `https://api.semanticscholar.org/graph/v1/paper/${encodeURIComponent(lookupId)}?fields=${encodeURIComponent(SS_PAPER_FIELDS)}`;
+    const resp = await fetch(url, { headers: { Accept: 'application/json' } });
+    if (!resp.ok) {
+      const msg = resp.status === 404 ? 'Paper not found. Check the PMID or Semantic Scholar ID.' : `API error ${resp.status}`;
+      status.textContent = msg; status.className = 'add-paper-status err';
+      btn.disabled = false; return;
+    }
+    const paper = await resp.json();
+    const parsed = _parsePaperForDashboard(paper);
+
+    // Check already present
+    const existing = getEffectivePubs(fid);
+    if (existing.some(p => p.pmid === parsed.pmid || p.paper_id === parsed.paper_id)) {
+      status.textContent = 'This paper is already in the profile.';
+      status.className = 'add-paper-status err';
+      btn.disabled = false; return;
+    }
+
+    _pendingPaper[fid] = parsed;
+    document.getElementById(`app-title-${fid}`).textContent = parsed.title || '(No title)';
+    document.getElementById(`app-meta-${fid}`).innerHTML =
+      `<span>${parsed.year}</span><span>${parsed.journal || 'Unknown journal'}</span>${parsed.doi ? `<span>DOI: ${parsed.doi}</span>` : ''}`;
+    document.getElementById(`app-authors-${fid}`).textContent = (parsed.authors || []).join(', ');
+    preview.classList.add('visible');
+    status.textContent = ''; status.className = 'add-paper-status';
+  } catch(e) {
+    status.textContent = 'Network error — check your connection and try again.';
+    status.className = 'add-paper-status err';
+  }
+  btn.disabled = false;
+}
+
+function _parsePaperForDashboard(paper) {
+  const ext   = paper.externalIds || {};
+  const pmid  = String(ext.PubMed || '');
+  const doi   = ext.DOI || '';
+  const paperId = paper.paperId || '';
+  const recordId = pmid || paperId;
+
+  const authorsRaw = paper.authors || [];
+  const authors = authorsRaw.slice(0, 6).map(a => a.name || '');
+  if (authorsRaw.length > 6) authors.push('et al.');
+
+  const journalObj = paper.journal || {};
+  const journal = journalObj.name || paper.venue || '';
+  const title = (paper.title || '').replace(/\.$/, '');
+  const pubTypes = paper.publicationTypes || [];
+  const joined = pubTypes.map(t => t.toLowerCase()).join(' ');
+  const tags = [];
+  if (joined.includes('review')) tags.push('Review');
+  if (/clinicaltrial|clinical trial|randomizedcontrolledtrial/.test(joined)) tags.push('Clinical Trial');
+
+  return {
+    pmid: recordId,
+    paper_id: paperId,
+    title,
+    authors,
+    journal,
+    year: String(paper.year || 'Unknown'),
+    doi,
+    tags,
+    pub_types: pubTypes,
+    _manual: true,
+  };
+}
+
+function confirmAddPaper(fid) {
+  const paper = _pendingPaper[fid];
+  if (!paper) return;
+  const custom = getCustomPubs(fid);
+  custom.push(paper);
+  saveCustomPubs(fid, custom);
+  delete _pendingPaper[fid];
+  // clear input
+  const input = document.getElementById(`add-paper-input-${fid}`);
+  if (input) input.value = '';
+  const status = document.getElementById(`add-paper-status-${fid}`);
+  if (status) { status.textContent = `Added: "${paper.title.slice(0,60)}…"`; status.className = 'add-paper-status ok'; }
+  updateHeaderStats();
+  showScholar(fid);
+}
+
+function cancelAddPaper(fid) {
+  delete _pendingPaper[fid];
+  const preview = document.getElementById(`add-paper-preview-${fid}`);
+  if (preview) preview.classList.remove('visible');
+  const input = document.getElementById(`add-paper-input-${fid}`);
+  if (input) input.value = '';
+}
+
+function openPubLink(encodedDoi, event) {
+  if (event.target.closest('.delete-btn,.pub-select-cb')) return;
+  window.open('https://doi.org/' + decodeURIComponent(encodedDoi), '_blank');
+}
+
+// ─── MULTI-SELECT STATE ───────────────────────────────
+const _pubSelections = {}; // fid → Set of pmids
+
+function togglePubSelect(fid, pmid, event) {
+  event.stopPropagation();
+  if (!_pubSelections[fid]) _pubSelections[fid] = new Set();
+  const sel = _pubSelections[fid];
+  if (sel.has(pmid)) sel.delete(pmid); else sel.add(pmid);
+  const el = document.getElementById(`pub-${fid}-${pmid}`);
+  if (el) el.classList.toggle('selected', sel.has(pmid));
+  _updateBulkBar(fid);
+}
+
+function selectAllPubs(fid) {
+  const fp = PUBS[fid];
+  const pubs = getEffectivePubs(fid);
+  if (!_pubSelections[fid]) _pubSelections[fid] = new Set();
+  const sel = _pubSelections[fid];
+  pubs.forEach(p => sel.add(p.pmid));
+  pubs.forEach(p => {
+    const el = document.getElementById(`pub-${fid}-${p.pmid}`);
+    if (el) { el.classList.add('selected'); const cb = el.querySelector('.pub-select-cb'); if (cb) cb.checked = true; }
+  });
+  _updateBulkBar(fid);
+}
+
+function clearPubSelection(fid) {
+  if (_pubSelections[fid]) _pubSelections[fid].clear();
+  document.querySelectorAll(`#sv-papers-list .pub-item`).forEach(el => {
+    el.classList.remove('selected');
+    const cb = el.querySelector('.pub-select-cb'); if (cb) cb.checked = false;
+  });
+  _updateBulkBar(fid);
+}
+
+function _updateBulkBar(fid) {
+  const bar = document.getElementById(`bulk-bar-${fid}`);
+  if (!bar) return;
+  const count = (_pubSelections[fid] || new Set()).size;
+  bar.classList.toggle('visible', count > 0);
+  const countEl = document.getElementById(`bulk-count-${fid}`);
+  if (countEl) countEl.textContent = `${count} selected`;
+}
+
+function deleteSelectedPubs(fid) {
+  const sel = _pubSelections[fid];
+  if (!sel || !sel.size) return;
+  const fname = FACULTY.find(f => f.id === fid)?.name || fid;
+  if (!confirm(`Delete ${sel.size} selected paper(s) from ${fname}'s profile?`)) return;
+  const deleted = getDeletedPmids(fid);
+  sel.forEach(pmid => { if (!deleted.includes(pmid)) deleted.push(pmid); });
+  localStorage.setItem('deleted_' + fid, JSON.stringify(deleted));
+  sel.clear();
+  updateHeaderStats();
+  if (currentFacultyId === fid) showScholar(fid);
+}
+
+function deletePaper(fid, pmid, event) {
+  event.stopPropagation();
+  const deleted = getDeletedPmids(fid);
+  if (!deleted.includes(pmid)) {
+    deleted.push(pmid);
+    localStorage.setItem('deleted_' + fid, JSON.stringify(deleted));
+  }
+  // Also remove from current selection if present
+  if (_pubSelections[fid]) _pubSelections[fid].delete(pmid);
+  updateHeaderStats();
+  if (currentFacultyId === fid) showScholar(fid);
+}
+
+function restorePaper(fid, pmid) {
+  const deleted = getDeletedPmids(fid).filter(p => p !== pmid);
+  localStorage.setItem('deleted_' + fid, JSON.stringify(deleted));
+  updateHeaderStats();
+  if (currentFacultyId === fid) showScholar(fid);
+  showExclusions(); // refresh the open modal
+}
+
+function updateHeaderStats() {
+  const stats = getDivisionStats();
+  document.getElementById('total-pubs').textContent = stats.totalPubs.toLocaleString();
+  document.getElementById('total-journals').textContent = stats.journals;
+  document.getElementById('stat-total').textContent = stats.totalPubs.toLocaleString();
+  document.getElementById('stat-years').textContent = isFinite(stats.minYr) ? `${stats.minYr}–${stats.maxYr}` : '—';
+  document.getElementById('stat-reviews').textContent = stats.reviews;
+  document.getElementById('stat-journals').textContent = stats.journals;
+  document.getElementById('stat-recent').textContent = stats.recent;
+  // Update per-faculty counts in sidebar
+  FACULTY.forEach(f => {
+    const el = document.querySelector(`#fi-${f.id} .faculty-count`);
+    if (el) el.textContent = getEffectivePubs(f.id).length;
+  });
+}
+
+// ─── EXCLUSIONS PANEL ────────────────────────────────
+function showExclusions() {
+  const panel = document.getElementById('excl-panel');
+  const jsonOut = document.getElementById('excl-json-out');
+  const copyBtn = document.getElementById('copy-excl-btn');
+
+  let html = '';
+  let hasAny = false;
+  const jsonPayload = {};
+
+  FACULTY.forEach(f => {
+    const deleted = getDeletedPmids(f.id);
+    if (!deleted.length) return;
+    hasAny = true;
+    jsonPayload[f.id] = deleted;
+    html += `<div class="excl-faculty-block">
+      <div class="excl-faculty-label">${f.name}</div>
+      ${deleted.map(pmid => `
+        <span class="excl-chip">${pmid}
+          <button type="button" onclick="restorePaper('${f.id}','${pmid}')" title="Restore this paper">↩</button>
+        </span>`).join('')}
+    </div>`;
+  });
+
+  panel.innerHTML = hasAny
+    ? html
+    : '<div class="excl-empty">No papers have been excluded yet.</div>';
+
+  jsonOut.textContent = hasAny
+    ? JSON.stringify(jsonPayload, null, 2)
+    : '(no exclusions)';
+
+  document.getElementById('excl-json-details').open = hasAny;
+  copyBtn.disabled = !hasAny;
+  copyBtn.textContent = 'Copy JSON';
+
+  document.getElementById('excl-modal').classList.remove('modal-hidden');
+}
+
+function closeExclusions() {
+  document.getElementById('excl-modal').classList.add('modal-hidden');
+}
+
+function copyExclusions() {
+  const text = document.getElementById('excl-json-out').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-excl-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy JSON'; }, 2000);
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
