@@ -1014,6 +1014,7 @@ async function loadData() {
     // Load faculty roster
     const fRes = await fetch('data/faculty.json');
     FACULTY = await fRes.json();
+    FACULTY.sort((a, b) => (a.name||'').split(' ').pop().localeCompare((b.name||'').split(' ').pop()));
 
     // Load publications (pre-fetched by GitHub Action)
     // Falls back to empty if not yet generated
@@ -1566,6 +1567,7 @@ function mergeCustomFaculty() {
     const pubs = getCustomPubs(f.id);
     if (pubs && !PUBS[f.id]) PUBS[f.id] = pubs;
   }
+  FACULTY.sort((a, b) => (a.name||'').split(' ').pop().localeCompare((b.name||'').split(' ').pop()));
 }
 
 // ─── ADD FACULTY MODAL ────────────────────────────────
@@ -1712,6 +1714,7 @@ function confirmAddFaculty() {
   } else {
     // Add to runtime arrays
     FACULTY.push(faculty);
+    FACULTY.sort((a, b) => (a.name||'').split(' ').pop().localeCompare((b.name||'').split(' ').pop()));
     PUBS[faculty.id] = pubsObj;
     // Persist
     const custom = getCustomFaculty();
