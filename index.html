@@ -1944,7 +1944,6 @@ function getEffectivePubs(fid) {
 }
 
 // ─── ADD PAPER BY PMID ───────────────────────────────
-const SS_PAPER_FIELDS = 'paperId,title,authors,year,venue,journal,externalIds,publicationTypes,publicationDate';
 let _pendingPaper = {}; // fid → paper object awaiting confirmation
 
 async function lookupPaper(fid) {
@@ -1965,10 +1964,10 @@ async function lookupPaper(fid) {
   preview.classList.remove('visible');
 
   try {
-    const url = `https://api.semanticscholar.org/graph/v1/paper/${encodeURIComponent(lookupId)}?fields=${encodeURIComponent(SS_PAPER_FIELDS)}`;
-    const resp = await fetch(url, { headers: { Accept: 'application/json' } });
+    const resp = await fetch(`${SYNC_WORKER_URL}/lookup?id=${encodeURIComponent(lookupId)}`);
     if (!resp.ok) {
-      const msg = resp.status === 404 ? 'Paper not found. Check the PMID or Semantic Scholar ID.' : `API error ${resp.status}`;
+      const e = await resp.json().catch(() => ({}));
+      const msg = resp.status === 404 ? 'Paper not found. Check the PMID or Semantic Scholar ID.' : (e.error || `API error ${resp.status}`);
       status.textContent = msg; status.className = 'add-paper-status err';
       btn.disabled = false; return;
     }
