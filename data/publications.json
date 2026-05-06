@@ -1,8 +1,6 @@
 {
   "jagarapu-jawahar": {
     "faculty_id": "jagarapu-jawahar",
-    "hIndex": 4,
-    "citationCount": 108,
     "publications": [
       {
         "pmid": "41628893",
@@ -385,8 +383,6 @@
   },
   "chalak-lina": {
     "faculty_id": "chalak-lina",
-    "hIndex": 40,
-    "citationCount": 5055,
     "publications": [
       {
         "pmid": "ce3ae9ff4e10ff0649cce59adad3ea57f8c807d1",
@@ -3609,8 +3605,6 @@
   },
   "angelis-dimitrios": {
     "faculty_id": "angelis-dimitrios",
-    "hIndex": 13,
-    "citationCount": 672,
     "publications": [
       {
         "pmid": "37120652",
@@ -4642,45 +4636,24 @@
         "abstract": null,
         "openAccessUrl": null,
         "citationCount": 29
-      },
-      {
-        "pmid": "13498498",
-        "paper_id": "38e98944c7c6bd818c9a063fa0e4e15522b14f35",
-        "title": "[Not Available]",
-        "authors": [
-          "G. Arnaud",
-          "G. Pesle",
-          "D. Angelis"
-        ],
-        "journal": "Les Annales d'oto-laryngologie",
-        "year": "1957",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
       }
     ],
-    "total": 49,
+    "total": 48,
     "_blocked": [
-      "18797705",
-      "19640811",
-      "19822538",
-      "24209610",
-      "24574431",
-      "24739984",
-      "33831796",
       "34481500",
-      "40106575"
+      "40106575",
+      "33831796",
+      "18797705",
+      "19822538",
+      "19640811",
+      "24574431",
+      "24209610",
+      "24739984",
+      "13498498"
     ]
   },
   "mir-imran": {
     "faculty_id": "mir-imran",
-    "hIndex": 14,
-    "citationCount": 732,
     "publications": [
       {
         "pmid": "41628893",
@@ -5704,8 +5677,6 @@
   },
   "kakkilaya-venkat": {
     "faculty_id": "kakkilaya-venkat",
-    "hIndex": 13,
-    "citationCount": 857,
     "publications": [
       {
         "pmid": "10d6810d0e1520c9ef973713e9d9bcbc1e4b8418",
@@ -6379,8 +6350,6 @@
   },
   "kapadia-vishal": {
     "faculty_id": "kapadia-vishal",
-    "hIndex": 28,
-    "citationCount": 3886,
     "publications": [
       {
         "pmid": "36632729",
@@ -7913,8 +7882,6 @@
   },
   "ramachandran-shalini": {
     "faculty_id": "ramachandran-shalini",
-    "hIndex": 5,
-    "citationCount": 186,
     "publications": [
       {
         "pmid": "41122837",
@@ -8369,8 +8336,6 @@
   },
   "wyckoff-myra": {
     "faculty_id": "wyckoff-myra",
-    "hIndex": 52,
-    "citationCount": 14348,
     "publications": [
       {
         "pmid": "36632729",
@@ -11944,8 +11909,6 @@
   },
   "makkar-abhishek": {
     "faculty_id": "makkar-abhishek",
-    "hIndex": 12,
-    "citationCount": 302,
     "publications": [
       {
         "pmid": "40506020",
@@ -12710,8 +12673,6 @@
   },
   "gill-shamaila": {
     "faculty_id": "gill-shamaila",
-    "hIndex": 2,
-    "citationCount": 10,
     "publications": [
       {
         "pmid": "39284927",
@@ -12799,8 +12760,6 @@
   },
   "ennis-becky": {
     "faculty_id": "ennis-becky",
-    "hIndex": 1,
-    "citationCount": 6,
     "publications": [
       {
         "pmid": "41490923",
@@ -12870,8 +12829,6 @@
   },
   "ortigoza-eric": {
     "faculty_id": "ortigoza-eric",
-    "hIndex": 7,
-    "citationCount": 168,
     "publications": [
       {
         "pmid": "0e7e8f6917531b97f2251494f9537d58fa4276fa",
@@ -13307,8 +13264,6 @@
   },
   "yallapragada-sushmita": {
     "faculty_id": "yallapragada-sushmita",
-    "hIndex": 9,
-    "citationCount": 508,
     "publications": [
       {
         "pmid": "5ad7cb5f88302e01efa357b8753a0a4200c79251",
@@ -14008,8 +13963,6 @@
   },
   "mirpuri-julie": {
     "faculty_id": "mirpuri-julie",
-    "hIndex": 18,
-    "citationCount": 1633,
     "publications": [
       {
         "pmid": "41470852",
@@ -14900,8 +14853,6 @@
   },
   "kota-srinivas": {
     "faculty_id": "kota-srinivas",
-    "hIndex": 13,
-    "citationCount": 404,
     "publications": [
       {
         "pmid": "40933846",
@@ -15797,8 +15748,6 @@
   },
   "abu-jawdeh-elie": {
     "faculty_id": "abu-jawdeh-elie",
-    "hIndex": 10,
-    "citationCount": 561,
     "publications": [
       {
         "pmid": "41749666",
@@ -16714,8 +16663,6 @@
   },
   "babata-kikelomo": {
     "faculty_id": "babata-kikelomo",
-    "hIndex": 4,
-    "citationCount": 31,
     "publications": [
       {
         "pmid": "39797362",
@@ -17112,8 +17059,6 @@
   },
   "jaleel-mambarambath": {
     "faculty_id": "jaleel-mambarambath",
-    "hIndex": 10,
-    "citationCount": 1116,
     "publications": [
       {
         "pmid": "bdc1e29ae5cfef78c5388135162e283428f25025",
@@ -17825,8 +17770,6 @@
   },
   "sisman-julide": {
     "faculty_id": "sisman-julide",
-    "hIndex": 10,
-    "citationCount": 426,
     "publications": [
       {
         "pmid": "41490923",
@@ -18193,406 +18136,33 @@
         "abstract": null,
         "openAccessUrl": null,
         "citationCount": 10
-      },
-      {
-        "pmid": "2539510",
-        "paper_id": "90402f1a2296f0ab59b16b388ebd9cc651073b31",
-        "title": "Physical mapping and nucleotide sequence of a herpes simplex virus type 1 gene required for capsid assembly",
-        "authors": [
-          "B. Pertuiset",
-          "M. Boccara",
-          "J. Cebrian",
-          "N. Berthelot",
-          "S. Chousterman",
-          "F. Puvion-dutilleul",
-          "et al."
-        ],
-        "journal": "Journal of Virology",
-        "year": "1989",
-        "doi": "10.1128/jvi.63.5.2169-2179.1989",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": "https://jvi.asm.org/content/jvi/63/5/2169.full.pdf",
-        "citationCount": 47
-      },
-      {
-        "pmid": "93859",
-        "paper_id": "066ba888255befb781ef054ce2f62a8510270fc4",
-        "title": "Enhancement of retrovirus production by anti-interferon serum",
-        "authors": [
-          "F. Barré-Sinoussi",
-          "L. Montagnier",
-          "R. Lidereau",
-          "J. Sisman",
-          "J. Wood",
-          "J. Chermann"
-        ],
-        "journal": "Annales de microbiologie",
-        "year": "1979",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 21
-      },
-      {
-        "pmid": "475220",
-        "paper_id": "34ae7724523084f192863e4c1d60bbfb5d4e7820",
-        "title": "[Glycosylation and isoelectric properties of complete and defective rabies viruses (author's transl)]",
-        "authors": [
-          "P. Atanasiu",
-          "P. Perrin",
-          "S. Favre",
-          "J. Sisman"
-        ],
-        "journal": "Annales de microbiologie",
-        "year": "1979",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 4
-      },
-      {
-        "pmid": "816505",
-        "paper_id": "53e6d89781cfbdde8b4c4f1c05d32dec96b41db6",
-        "title": "[Identification of rabies virus glycoproteins and nucleoproteins in infected cells by specifically labeled immunoglobulins]",
-        "authors": [
-          "P. Atanasiu",
-          "J. Nozaki",
-          "J. Sisman",
-          "P. Perrin"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1975",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "4219162",
-        "paper_id": "180a270c603927734775178accd2f37a7204870f",
-        "title": "[Antigenicity of a soluble antigen (glycoprotein) of purified rables virus, treated with Triton X 100]",
-        "authors": [
-          "P. Atanasiu",
-          "H. Tsiang",
-          "P. Perrin",
-          "S. Favre",
-          "J. Sisman",
-          "P. Lépine"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1974",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "4468748",
-        "paper_id": "5fb5ff24121b1bc434a3e58233bdab41fbd90627",
-        "title": "[Extraction of a soluble antigen (a glycoprotein) from rabies tissue culture vaccines using Triton X100. Immunization and protection experiments (author's transl)]",
-        "authors": [
-          "P. Atanasiu",
-          "H. Tsiang",
-          "P. Perrin",
-          "S. Favre",
-          "J. Sisman"
-        ],
-        "journal": "Annales de microbiologie",
-        "year": "1974",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 5
-      },
-      {
-        "pmid": "4219334",
-        "paper_id": "caeeb9de93a66b1dc164a8d6c9d32a3983ed64de",
-        "title": "[Description of 12 bacteriophages isolated from Bacillus thuringiensis]",
-        "authors": [
-          "H. de Barjac",
-          "J. Sisman",
-          "V. Cosmao-Dumanoir"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1974",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 6
-      },
-      {
-        "pmid": "4981968",
-        "paper_id": "4f3dcb1a7b75b02b4e70d9c93209e57519258877",
-        "title": "[Replication of fixed rabies virus and virus from newborn mice]",
-        "authors": [
-          "P. Atanasiu",
-          "P. Lépine",
-          "J. Sisman"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1969",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "4300513",
-        "paper_id": "324e0990ef6aa855e3b05c5b4ba928ee8b426fd4",
-        "title": "[Isolation of a bacterial parasite active on Gram-positive bacteria from samples of polluted water]",
-        "authors": [
-          "A. Guélin",
-          "P. Lépine",
-          "D. Lamblin",
-          "J. Sisman"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1968",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "4972967",
-        "paper_id": "8dc74c73b736abbc71f9a5e053b913d9f1f35d56",
-        "title": "[Electron microscope study of the site of maturation of the rubella virus]",
-        "authors": [
-          "C. Bonissol",
-          "J. Sisman"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1968",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 1
-      },
-      {
-        "pmid": "4299917",
-        "paper_id": "b4472faad9391f14a34b92194f680ac0330a6040",
-        "title": "[Preliminary electron microscopic study of Myxovirus parainfluenzae II]",
-        "authors": [
-          "C. Bonissol",
-          "J. Sisman",
-          "P. Lépine"
-        ],
-        "journal": "Annales de l'Institut Pasteur",
-        "year": "1968",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "bb7905a6c1f27de09feffc533299daf144daa59a",
-        "paper_id": "bb7905a6c1f27de09feffc533299daf144daa59a",
-        "title": "A preliminary electron microscope study of parainfluenza 2 virus",
-        "authors": [
-          "C. Bonissol",
-          "J. Sisman",
-          "P. Lépine"
-        ],
-        "journal": "",
-        "year": "1968",
-        "doi": "",
-        "tags": [],
-        "pub_types": [],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "5739144",
-        "paper_id": "c362ae4aef2d5b1daec8f805dcd71ca018ddba0f",
-        "title": "[Isolation of Bdellovibrio bacteriovorus, a parasite of Salmonella typhosa, from river water]",
-        "authors": [
-          "A. Guélin",
-          "P. Lepin",
-          "D. Lamblin",
-          "J. Sisman"
-        ],
-        "journal": "Izvestiia Akademii nauk SSSR. Seriia biologicheskaia",
-        "year": "1968",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "4176916",
-        "paper_id": "4edfe775144daf9ce031f8206c7cb2ddeb108917",
-        "title": "[Morphological aspects of rabies virus]",
-        "authors": [
-          "P. Atanasiu",
-          "J. Sisman"
-        ],
-        "journal": "Bulletin - Office international des epizooties",
-        "year": "1967",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 1
-      },
-      {
-        "pmid": "4965037",
-        "paper_id": "56b492aaf9c6c3c6669909e52c5ff151240c02ff",
-        "title": "[Electron microscope study of the lysis of Salmonella by Bdellovibrio bacteriovorus]",
-        "authors": [
-          "P. Lépine",
-          "A. Guélin",
-          "J. Sisman",
-          "D. Lamblin"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences. Serie D: Sciences naturelles",
-        "year": "1967",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "14289985",
-        "paper_id": "38f84888624a3dbda92ab816c8bbd489f13c6c1c",
-        "title": "[ON A VIRUS ISOLATED FROM BOVINE PAPILLOMA]",
-        "authors": [
-          "V. Mateva",
-          "J. Sisman"
-        ],
-        "journal": "Annales de l'Institut Pasteur",
-        "year": "1965",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "14096485",
-        "paper_id": "07c6ea50675d8b6b73ac72ccf6f347b18af64252",
-        "title": "[IMMUNOLOGICAL IDENTIFICATION OF THE RABIES VIRION IN CELL CULTURES BY SPECIFIC ANTIBODIES CONJUGATED WITH FERRITIN]",
-        "authors": [
-          "P. Atanasiu",
-          "G. Orth",
-          "J. Sisman",
-          "C. Barreau"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences",
-        "year": "1963",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "13848035",
-        "paper_id": "5bee8d103c8a36157f3239f24c64db0b94f99d95",
-        "title": "[Morphological or electron microscopic studies of lymphoid leukemia virus (strain RPL-12) in tissue culture]",
-        "authors": [
-          "P. Atanasiu",
-          "J. Sisman",
-          "M. Wetten"
-        ],
-        "journal": "Comptes rendus hebdomadaires des seances de l'Academie des sciences",
-        "year": "1960",
-        "doi": "",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 0
-      },
-      {
-        "pmid": "13840657",
-        "paper_id": "8041d306245fac3047232fdf376761f9b6deb1af",
-        "title": "[Demonstration of the polyhedral virus in Antherea pernyi (Lepidoptera)]",
-        "authors": [
-          "C. Vago",
-          "J. Sisman"
-        ],
-        "journal": "Archiv fur die gesamte Virusforschung",
-        "year": "1959",
-        "doi": "10.1007/bf01240724",
-        "tags": [],
-        "pub_types": [
-          "JournalArticle"
-        ],
-        "abstract": null,
-        "openAccessUrl": null,
-        "citationCount": 1
       }
     ],
-    "total": 35
+    "total": 16,
+    "_blocked": [
+      "13840657",
+      "13848035",
+      "14096485",
+      "14289985",
+      "4965037",
+      "4176916",
+      "5739144",
+      "bb7905a6c1f27de09feffc533299daf144daa59a",
+      "4299917",
+      "4972967",
+      "4300513",
+      "4981968",
+      "4219334",
+      "4468748",
+      "4219162",
+      "475220",
+      "93859",
+      "816505",
+      "2539510"
+    ]
   },
   "ramatchandirin-balamurugan": {
     "faculty_id": "ramatchandirin-balamurugan",
-    "hIndex": 5,
-    "citationCount": 91,
     "publications": [
       {
         "pmid": "25d718b55fa19c5e8ac98d5adbdd55320f522a9e",
@@ -18923,8 +18493,6 @@
   },
   "nesterenko-tetyana": {
     "faculty_id": "nesterenko-tetyana",
-    "hIndex": 3,
-    "citationCount": 47,
     "publications": [
       {
         "pmid": "41760908",
@@ -19220,8 +18788,6 @@
   },
   "eltaha-chadi": {
     "faculty_id": "eltaha-chadi",
-    "hIndex": 15,
-    "citationCount": 3858,
     "publications": [
       {
         "pmid": "6b8369bc9cf85e0f911b974e294149e1612874f4",
@@ -19780,8 +19346,6 @@
   },
   "nayak-sujir": {
     "faculty_id": "nayak-sujir",
-    "hIndex": 5,
-    "citationCount": 64,
     "publications": [
       {
         "pmid": "006efac5fee46e6bb05955a04fb4675f0a28cf12",
@@ -20161,8 +19725,6 @@
   },
   "ali-noorjahan": {
     "faculty_id": "ali-noorjahan",
-    "hIndex": 10,
-    "citationCount": 519,
     "publications": [
       {
         "pmid": "34c520aa8cca3d456845937ab1cf7932d042b1bd",
@@ -20960,8 +20522,6 @@
   },
   "asghar-asya": {
     "faculty_id": "asghar-asya",
-    "hIndex": 0,
-    "citationCount": 0,
     "publications": [
       {
         "pmid": "39428318",
@@ -21014,8 +20574,6 @@
   },
   "pazandak-christine": {
     "faculty_id": "pazandak-christine",
-    "hIndex": 2,
-    "citationCount": 16,
     "publications": [
       {
         "pmid": "41490930",
@@ -21283,8 +20841,6 @@
   },
   "ahmed-syed": {
     "faculty_id": "ahmed-syed",
-    "hIndex": 1,
-    "citationCount": 1,
     "publications": [
       {
         "pmid": "40506020",
@@ -21318,8 +20874,6 @@
   },
   "bailey-nicole": {
     "faculty_id": "bailey-nicole",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "34998719",
@@ -21385,8 +20939,6 @@
   },
   "banales-jesse": {
     "faculty_id": "banales-jesse",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "c1c62b4be924fffdbc310235be706909745ae1dd",
@@ -21499,8 +21051,6 @@
   },
   "batta-arya": {
     "faculty_id": "batta-arya",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "39085435",
@@ -21525,8 +21075,6 @@
   },
   "bautista-lorraine": {
     "faculty_id": "bautista-lorraine",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "10d6810d0e1520c9ef973713e9d9bcbc1e4b8418",
@@ -21654,8 +21202,6 @@
   },
   "brannon-timothy": {
     "faculty_id": "brannon-timothy",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "19381314",
@@ -21916,8 +21462,6 @@
   },
   "brasher-mandy": {
     "faculty_id": "brasher-mandy",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "38561049",
@@ -22006,8 +21550,6 @@
   },
   "callaway-danielle": {
     "faculty_id": "callaway-danielle",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "32791187",
@@ -22248,8 +21790,6 @@
   },
   "chan-christina": {
     "faculty_id": "chan-christina",
-    "hIndex": 3,
-    "citationCount": 20,
     "publications": [
       {
         "pmid": "41490923",
@@ -22534,8 +22074,6 @@
   },
   "chen-walter": {
     "faculty_id": "chen-walter",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "f290f04c5a95dd130e9175611c804a63bbc19905",
@@ -23034,8 +22572,6 @@
   },
   "chiu-melody": {
     "faculty_id": "chiu-melody",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "10d6810d0e1520c9ef973713e9d9bcbc1e4b8418",
@@ -23126,8 +22662,6 @@
   },
   "chokshi-riti": {
     "faculty_id": "chokshi-riti",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "40921206",
@@ -23255,8 +22789,6 @@
   },
   "crume-mary": {
     "faculty_id": "crume-mary",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "38945970",
@@ -23307,8 +22839,6 @@
   },
   "desai-riddhi": {
     "faculty_id": "desai-riddhi",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "4da8d090e6bb5c0c9dea828c7189e6c10610c74c",
@@ -23371,8 +22901,6 @@
   },
   "herrin-charles": {
     "faculty_id": "herrin-charles",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "eb2508d0c3daf7c9a27f6509c97e35dc732abef8",
@@ -23423,86 +22951,19 @@
         "pub_types": [
           "CaseReport"
         ]
-      },
-      {
-        "pmid": "4068408c1e3d380616b42c865305ea27037f3836",
-        "paper_id": "4068408c1e3d380616b42c865305ea27037f3836",
-        "title": "New books",
-        "authors": [
-          "F. Quackenbush",
-          "K. Zilch",
-          "Charles B. Herrin",
-          "R. M. Pierce",
-          "R. Stillman"
-        ],
-        "journal": "Journal of the American Oil Chemists’ Society",
-        "year": "1968",
-        "doi": "10.1007/BF02631929",
-        "tags": [],
-        "pub_types": []
-      },
-      {
-        "pmid": "ea885c32484b72960033d2aa7af6ebc6f7500889",
-        "paper_id": "ea885c32484b72960033d2aa7af6ebc6f7500889",
-        "title": "Comparison of Packed and Open Tube Capillary Columns",
-        "authors": [
-          "Charles B. Herrin"
-        ],
-        "journal": "",
-        "year": "1968",
-        "doi": "10.1093/chromsci/6.9.470",
-        "tags": [],
-        "pub_types": []
-      },
-      {
-        "pmid": "fd3820a460d1eb8d151aa4749aeb20aaab85c0af",
-        "paper_id": "fd3820a460d1eb8d151aa4749aeb20aaab85c0af",
-        "title": "A simple sodium thermionic detector for organic halogen and phosphorus compounds",
-        "authors": [
-          "G. Guilbault",
-          "Charles B. Herrin"
-        ],
-        "journal": "Analytica Chimica Acta",
-        "year": "1967",
-        "doi": "10.1016/S0003-2670(01)80696-6",
-        "tags": [],
-        "pub_types": []
-      },
-      {
-        "pmid": "21d9ac40ba60bd731c59ce2bcf1ea969a90d4cf9",
-        "paper_id": "21d9ac40ba60bd731c59ce2bcf1ea969a90d4cf9",
-        "title": "The use of air as carrier gas in the electron capture detector",
-        "authors": [
-          "G. Guilbault",
-          "Charles B. Herrin"
-        ],
-        "journal": "Analytica Chimica Acta",
-        "year": "1966",
-        "doi": "10.1016/0003-2670(66)80041-7",
-        "tags": [],
-        "pub_types": []
-      },
-      {
-        "pmid": "f48a8face364410ce1f9014d8b82a399c2889892",
-        "paper_id": "f48a8face364410ce1f9014d8b82a399c2889892",
-        "title": "A Simple Atomic Absorption Photometer for Water Analysis",
-        "authors": [
-          "P. W. West",
-          "Charles B. Herrin"
-        ],
-        "journal": "Journal American Water Works Association",
-        "year": "1965",
-        "doi": "10.1002/J.1551-8833.1965.TB01428.X",
-        "tags": [],
-        "pub_types": []
       }
     ],
-    "total": 8
+    "total": 3,
+    "_blocked": [
+      "f48a8face364410ce1f9014d8b82a399c2889892",
+      "21d9ac40ba60bd731c59ce2bcf1ea969a90d4cf9",
+      "fd3820a460d1eb8d151aa4749aeb20aaab85c0af",
+      "ea885c32484b72960033d2aa7af6ebc6f7500889",
+      "4068408c1e3d380616b42c865305ea27037f3836"
+    ]
   },
   "hoge-margaret": {
     "faculty_id": "hoge-margaret",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "41741782",
@@ -23840,8 +23301,6 @@
   },
   "hu-june": {
     "faculty_id": "hu-june",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "15ae2b6a218a12ceb0854a74fbae50923854a73f",
@@ -24118,8 +23577,6 @@
   },
   "ibrahim-john": {
     "faculty_id": "ibrahim-john",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "38591664",
@@ -24800,8 +24257,6 @@
   },
   "jayanthan-raj": {
     "faculty_id": "jayanthan-raj",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "dbfccdbbda964a01fa4c525d2ffab799c97fdba1",
@@ -25006,8 +24461,6 @@
   },
   "johnson-chelsea": {
     "faculty_id": "johnson-chelsea",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "40667248",
@@ -25307,8 +24760,6 @@
   },
   "krishnan-mohan": {
     "faculty_id": "krishnan-mohan",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "35586749",
@@ -25489,8 +24940,6 @@
   },
   "leon-rachel": {
     "faculty_id": "leon-rachel",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "41077459",
@@ -25579,8 +25028,6 @@
   },
   "mudduluru-manjula": {
     "faculty_id": "mudduluru-manjula",
-    "hIndex": 3,
-    "citationCount": 91,
     "publications": [
       {
         "pmid": "36376450",
@@ -25682,8 +25129,6 @@
   },
   "pandey-rajesh": {
     "faculty_id": "pandey-rajesh",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "c88696c191c174b3d22fc4e89d26481514c071d8",
@@ -25762,8 +25207,6 @@
   },
   "prasath-arun": {
     "faculty_id": "prasath-arun",
-    "hIndex": 1,
-    "citationCount": 3,
     "publications": [
       {
         "pmid": "84f5628f9e7d3b176b2085b4796dce8210e8c278",
@@ -25968,8 +25411,6 @@
   },
   "sandhu-tavleen": {
     "faculty_id": "sandhu-tavleen",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "472057a059fb7e180f362dcec91de53020658667",
@@ -26091,8 +25532,6 @@
   },
   "santos-oren-marina": {
     "faculty_id": "santos-oren-marina",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "41244811",
@@ -26141,8 +25580,6 @@
   },
   "scheid-lisa": {
     "faculty_id": "scheid-lisa",
-    "hIndex": null,
-    "citationCount": null,
     "publications": [
       {
         "pmid": "37149492",
@@ -26321,8 +25758,6 @@
   },
   "stumpf-katherine": {
     "faculty_id": "stumpf-katherine",
-    "hIndex": 2,
-    "citationCount": 465,
     "publications": [
       {
         "pmid": "38266000",
