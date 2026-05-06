@@ -1856,10 +1856,13 @@ function buildPublicationsPayload() {
   const allPubs = {};
   allFaculty.forEach(f => {
     const pubs = getEffectivePubs(f.id);
-    const existingBlocked = (PUBS[f.id] || {})._blocked || [];
+    const fp = PUBS[f.id] || {};
+    const existingBlocked = fp._blocked || [];
     const allBlocked = [...new Set([...(f.blocked_pmids || []), ...existingBlocked])];
     const entry = { faculty_id: f.id, publications: pubs, total: pubs.length };
-    if (allBlocked.length) entry._blocked = allBlocked;
+    if (fp.hIndex        != null) entry.hIndex        = fp.hIndex;
+    if (fp.citationCount != null) entry.citationCount = fp.citationCount;
+    if (allBlocked.length)        entry._blocked       = allBlocked;
     allPubs[f.id] = entry;
   });
   return allPubs;
