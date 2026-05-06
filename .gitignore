@@ -3,3 +3,4 @@ scripts/__pycache__/
 *.pyo
 .env
 .claude/
+CREDENTIALS.local.md
