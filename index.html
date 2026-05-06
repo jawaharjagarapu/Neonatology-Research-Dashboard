@@ -963,33 +963,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
   </div>
 </div>
 
-<!-- GitHub Sync config modal -->
-<div class="modal-overlay modal-hidden" id="gh-sync-modal" onclick="if(event.target===this)closeGhSyncModal()">
-  <div class="modal-box">
-    <div class="modal-title">Sync to GitHub</div>
-    <div class="modal-sub">
-      Commits updated exclusions directly to your repository — no download needed.
-      Requires a <strong>Personal Access Token</strong> with <code class="excl-code">repo</code> (or <code class="excl-code">public_repo</code>) scope.
-      Token is kept in your browser session only and never stored permanently.
-    </div>
-    <div class="form-row">
-      <span class="modal-label">GitHub Personal Access Token</span>
-      <input type="password" class="modal-input" id="gh-pat-input"
-             placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="current-password">
-    </div>
-    <div class="form-row">
-      <span class="modal-label">Repository <span class="label-optional">(owner/repo-name)</span></span>
-      <input type="text" class="modal-input" id="gh-repo-input"
-             placeholder="username/neonatology-dashboard" autocomplete="off">
-      <div class="form-hint" id="gh-repo-hint"></div>
-    </div>
-    <div class="modal-error" id="gh-sync-err"></div>
-    <div class="modal-actions">
-      <button type="button" class="btn-primary" id="gh-save-sync-btn" onclick="saveAndSync()">Save &amp; Sync Now</button>
-      <button type="button" class="btn-secondary" onclick="closeGhSyncModal()">Cancel</button>
-    </div>
-  </div>
-</div>
 
 <script>
 // ─── ADMIN CONFIG ────────────────────────────────────
@@ -1860,73 +1833,13 @@ function updateAdminUI() {
   btn.textContent = adminMode ? 'Admin ●' : 'Admin';
 }
 
-// ─── GITHUB SYNC ─────────────────────────────────────
-const GH_CONFIG_KEY = 'gh_config_v1';
-
-function getGhConfig() {
-  try { return JSON.parse(sessionStorage.getItem(GH_CONFIG_KEY) || 'null') || {}; }
-  catch { return {}; }
-}
-
-function saveGhConfig(pat, repo) {
-  sessionStorage.setItem(GH_CONFIG_KEY, JSON.stringify({ pat, repo }));
-}
-
-function detectGhRepo() {
-  // GitHub Pages URLs: username.github.io/repo-name/
-  const m = window.location.hostname.match(/^([^.]+)\.github\.io$/);
-  if (!m) return '';
-  const owner = m[1];
-  const seg = window.location.pathname.replace(/^\//, '').split('/')[0];
-  return seg ? `${owner}/${seg}` : `${owner}/${owner}.github.io`;
-}
-
-function showGhSyncModal() {
-  const cfg = getGhConfig();
-  const repoEl = document.getElementById('gh-repo-input');
-  const patEl  = document.getElementById('gh-pat-input');
-  const hint   = document.getElementById('gh-repo-hint');
-
-  const detected = detectGhRepo();
-  repoEl.value = cfg.repo || detected;
-  patEl.value  = cfg.pat ? '••••••••' : '';
-  hint.textContent = detected ? `Auto-detected from URL: ${detected}` : '';
-
-  document.getElementById('gh-sync-err').textContent = '';
-  document.getElementById('gh-sync-modal').classList.remove('modal-hidden');
-  setTimeout(() => (cfg.pat ? repoEl : patEl).focus(), 50);
-}
-
-function closeGhSyncModal() {
-  document.getElementById('gh-sync-modal').classList.add('modal-hidden');
-}
+// ─── GITHUB SYNC (via Cloudflare Worker proxy) ───────
+const SYNC_WORKER_URL = 'https://utswneoresearch-sync.jawaharjagarapu.workers.dev';
+const SYNC_SECRET     = 'ba5607b9f2b828389d661a131f979fd3c32dd2ce2323d6f89105a78e60819f08';
 
 // Entry point: called by admin bar button
 function githubSync() {
-  const cfg = getGhConfig();
-  if (!cfg.pat || !cfg.repo) { showGhSyncModal(); return; }
-  doGitHubSync(cfg);
-}
-
-// Called by modal "Save & Sync Now"
-async function saveAndSync() {
-  const patRaw = document.getElementById('gh-pat-input').value.trim();
-  const repo   = document.getElementById('gh-repo-input').value.trim();
-  const errEl  = document.getElementById('gh-sync-err');
-  errEl.textContent = '';
-
-  if (!patRaw || patRaw === '••••••••') {
-    errEl.textContent = 'Please enter a GitHub Personal Access Token.';
-    return;
-  }
-  if (!/^[^/]+\/[^/]+$/.test(repo)) {
-    errEl.textContent = 'Repository must be in "owner/repo-name" format.';
-    return;
-  }
-
-  saveGhConfig(patRaw, repo);
-  closeGhSyncModal();
-  doGitHubSync({ pat: patRaw, repo });
+  doWorkerSync();
 }
 
 // Build the publications.json payload (with _blocked) — mirrors exportAdminData logic
@@ -1952,53 +1865,27 @@ function buildPublicationsPayload() {
   return allPubs;
 }
 
-// UTF-8-safe base64 (required for non-ASCII characters in titles/author names)
-function utf8ToBase64(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
-
-async function doGitHubSync(cfg) {
+async function doWorkerSync() {
   const barBtn = document.getElementById('gh-sync-bar-btn');
   barBtn.textContent = '↻ Syncing…';
   barBtn.disabled = true;
 
   try {
-    const [owner, repo] = cfg.repo.split('/');
-    const base    = `https://api.github.com/repos/${owner}/${repo}/contents`;
-    const apiPath = 'data/publications.json';
-    const headers = {
-      'Authorization': `token ${cfg.pat}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-    };
-
-    // 1. Fetch current SHA (required by GitHub API to update an existing file)
-    const getResp = await fetch(`${base}/${apiPath}`, { headers });
-    if (!getResp.ok) {
-      const e = await getResp.json().catch(() => ({}));
-      throw new Error(e.message || `GitHub API ${getResp.status}`);
-    }
-    const { sha } = await getResp.json();
-
-    // 2. Build and encode payload
     const payload = buildPublicationsPayload();
-    const content = utf8ToBase64(JSON.stringify(payload, null, 2));
-    const today   = new Date().toISOString().split('T')[0];
+    const content = JSON.stringify(payload, null, 2);
 
-    // 3. Commit via GitHub Contents API
-    const putResp = await fetch(`${base}/${apiPath}`, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify({
-        message: `Admin: update exclusions ${today}`,
-        content,
-        sha,
-      }),
+    const resp = await fetch(SYNC_WORKER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Sync-Secret': SYNC_SECRET,
+      },
+      body: JSON.stringify({ content }),
     });
 
-    if (!putResp.ok) {
-      const e = await putResp.json().catch(() => ({}));
-      throw new Error(e.message || `GitHub API ${putResp.status}`);
+    if (!resp.ok) {
+      const e = await resp.json().catch(() => ({}));
+      throw new Error(e.error || `Sync failed (${resp.status})`);
     }
 
     barBtn.textContent = '✓ Synced';
@@ -2013,7 +1900,7 @@ async function doGitHubSync(cfg) {
     barBtn.textContent = '✗ Sync failed';
     barBtn.style.color = 'var(--coral)';
     barBtn.title = err.message;
-    console.error('GitHub sync error:', err);
+    console.error('Sync error:', err);
     setTimeout(() => {
       barBtn.textContent = '↑ Sync to GitHub';
       barBtn.style.color = '';
