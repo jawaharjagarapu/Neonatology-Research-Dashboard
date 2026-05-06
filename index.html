@@ -1939,8 +1939,8 @@ function getEffectivePubs(fid) {
     seen.add(uid);
     merged.push(p);
   }
-  if (!deleted.length) return merged;
-  return merged.filter(p => !deleted.includes(p.pmid));
+  const filtered = deleted.length ? merged.filter(p => !deleted.includes(p.pmid)) : merged;
+  return filtered.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
 }
 
 // ─── ADD PAPER BY PMID ───────────────────────────────
