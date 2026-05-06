@@ -1954,9 +1954,7 @@ async function lookupPaper(fid) {
   const raw = (input?.value || '').trim();
   if (!raw) return;
 
-  // Determine lookup ID: pure digits → PMID prefix, else treat as SS paper ID
   const isPmid = /^\d+$/.test(raw);
-  const lookupId = isPmid ? `PMID:${raw}` : raw;
 
   btn.disabled = true;
   status.className = 'add-paper-status';
@@ -1964,15 +1962,35 @@ async function lookupPaper(fid) {
   preview.classList.remove('visible');
 
   try {
-    const resp = await fetch(`${SYNC_WORKER_URL}/lookup?id=${encodeURIComponent(lookupId)}`);
-    if (!resp.ok) {
-      const e = await resp.json().catch(() => ({}));
-      const msg = resp.status === 404 ? 'Paper not found. Check the PMID or Semantic Scholar ID.' : (e.error || `API error ${resp.status}`);
-      status.textContent = msg; status.className = 'add-paper-status err';
-      btn.disabled = false; return;
+    let parsed;
+
+    if (isPmid) {
+      // Pure digits → PubMed E-utilities (free, no key, no CORS issues)
+      const resp = await fetch(
+        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${raw}&retmode=json`
+      );
+      if (!resp.ok) throw new Error(`PubMed API error ${resp.status}`);
+      const data = await resp.json();
+      const rec  = data.result?.[raw];
+      if (!rec || rec.error) {
+        status.textContent = 'Paper not found. Check the PMID.';
+        status.className = 'add-paper-status err';
+        btn.disabled = false; return;
+      }
+      parsed = _parsePubMedRecord(raw, rec);
+    } else {
+      // Semantic Scholar paper ID → route through Worker
+      const resp = await fetch(`${SYNC_WORKER_URL}/lookup?id=${encodeURIComponent(raw)}`);
+      if (!resp.ok) {
+        const e = await resp.json().catch(() => ({}));
+        const msg = resp.status === 404
+          ? 'Paper not found. Check the Semantic Scholar ID.'
+          : (e.error || `API error ${resp.status}`);
+        status.textContent = msg; status.className = 'add-paper-status err';
+        btn.disabled = false; return;
+      }
+      parsed = _parsePaperForDashboard(await resp.json());
     }
-    const paper = await resp.json();
-    const parsed = _parsePaperForDashboard(paper);
 
     // Check already present
     const existing = getEffectivePubs(fid);
@@ -1990,10 +2008,38 @@ async function lookupPaper(fid) {
     preview.classList.add('visible');
     status.textContent = ''; status.className = 'add-paper-status';
   } catch(e) {
-    status.textContent = 'Network error — check your connection and try again.';
+    status.textContent = e.message || 'Network error — check your connection and try again.';
     status.className = 'add-paper-status err';
   }
   btn.disabled = false;
+}
+
+function _parsePubMedRecord(pmid, rec) {
+  const authorsAll = (rec.authors || []).filter(a => a.authtype === 'Author');
+  const authors = authorsAll.slice(0, 6).map(a => a.name || '');
+  if (authorsAll.length > 6) authors.push('et al.');
+
+  const doi  = (rec.articleids || []).find(a => a.idtype === 'doi')?.value || '';
+  const year = (rec.epubdate || rec.pubdate || '').split(' ')[0];
+
+  const pubTypes = rec.pubtype || [];
+  const joined   = pubTypes.map(t => t.toLowerCase()).join(' ');
+  const tags = [];
+  if (joined.includes('review')) tags.push('Review');
+  if (/clinical trial|randomized/.test(joined)) tags.push('Clinical Trial');
+
+  return {
+    pmid,
+    paper_id: pmid,
+    title:   (rec.title || '').replace(/\.$/, ''),
+    authors,
+    journal: rec.fulljournalname || rec.source || '',
+    year:    year || 'Unknown',
+    doi,
+    tags,
+    pub_types: pubTypes,
+    _manual: true,
+  };
 }
 
 function _parsePaperForDashboard(paper) {
