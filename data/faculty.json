@@ -542,7 +542,7 @@
   {
     "id": "johnson-chelsea",
     "name": "Chelsea Johnson",
-    "semantic_scholar_id": "",
+    "semantic_scholar_id": "2212470861",
     "pubmed_query": "Johnson C[Author] AND (Neonatal OR NICU)",
     "seed_pmid": "",
     "blocked_pmids": [],
@@ -614,7 +614,7 @@
   {
     "id": "sandhu-tavleen",
     "name": "Tavleen Sandhu",
-    "semantic_scholar_id": "",
+    "semantic_scholar_id": "84214741",
     "pubmed_query": "Sandhu T[Author] AND (Neonatal OR NICU)",
     "seed_pmid": "",
     "blocked_pmids": [],
